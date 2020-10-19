@@ -7,14 +7,26 @@
  * ----------------------------------------------------------------------------
  */
 
-require('dotenv').config();
-const express = require('express');
+/**
+ * @author KEHL Johann <jkehl.dev@gmail.com>
+ * @version 1.0.0
+ * @description Main app module. Configure Express HTTPS web server.
+ */
 
+require('dotenv').config();
+
+const fs = require('fs');
+const https = require('https');
+const express = require('express');
 const app = express();
+
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({
   extended: true
 }));
+
+const helmet = require('helmet');
+app.use(helmet());
 
 const session = require('express-session');
 const secret = process.env.SESSPASSPHRASE;
@@ -23,24 +35,27 @@ app.use(session({
   saveUninitialized: true,
   resave: true,
   cookie: {
-    secure: false,
-    maxAge: (1000 * 60 * 60) 
+    secure: true,
+    httpOnly: true,
+    //  domain: 'example.com',
+    //  path: 'foo/bar',
+    maxAge: (1000 * 60 * 60)
   }
 }));
 
 app.use(express.static('public'));
 
+// MAIN ROUTER
 const router_index = require('./routers');
-app.use(router_index);
+const midlleware_session = require('./middlewares/middleware_session');
+app.use('/', midlleware_session.init, router_index);
 
-//const midlleware_session = require('./middlewares/midlleware_session');
-//app.use('/', midlleware_session.init, router_index);
-
+// PAGE NOT FOUND ROUTER
 const controller_error = require('./controllers/controller_error');
-app.use(controller_error.error404);
+app.use(controller_error.error_404);
 
-const PORT = process.env.PORT;
-app.listen(PORT, () => {
-  console.log(`Listening on ${PORT}`);
-});
- 
+const APP_PORT = process.env.PORT;
+https.createServer({
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem')
+}, app).listen(APP_PORT);
