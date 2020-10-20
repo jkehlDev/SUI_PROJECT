@@ -58,3 +58,4 @@ INSERT INTO "roles"("role_id","role_name","role_description") VALUES
 
 INSERT INTO "roleAppRules"("rule_roleId","rule_appId") VALUES
 (2,1);
+

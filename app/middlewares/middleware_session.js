@@ -22,9 +22,7 @@ const sessionMiddleware = {
      */
     init(request, response, next) {
         if (!request.session.user) {
-            request.session.user = {
-
-            };
+            request.session.user = {};
         }
         next();
     }

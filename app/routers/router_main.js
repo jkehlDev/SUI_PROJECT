@@ -18,5 +18,7 @@ const controller_main = require('../controllers/controller_main');
 const router_main = express.Router();
 
 router_main.get('/', controller_main.homePage);
+router_main.get('/signup/', controller_main.getSignUp);
+router_main.post('/signup/', controller_main.signUp);
 
 module.exports = router_main;
