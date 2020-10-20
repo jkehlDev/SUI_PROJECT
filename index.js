@@ -7,20 +7,19 @@
  * ----------------------------------------------------------------------------
  */
 
+require('dotenv').config();
+const express = require('express');
+
 /**
  * @author KEHL Johann <jkehl.dev@gmail.com>
  * @version 1.0.0
  * @description Main app module. Configure Express HTTPS web server.
  */
-
-require('dotenv').config();
-
-const fs = require('fs');
-const https = require('https');
-const express = require('express');
 const app = express();
 
 app.set('view engine', 'ejs');
+app.set('views', './app/views');
+
 app.use(express.urlencoded({
   extended: true
 }));
@@ -45,21 +44,29 @@ app.use(session({
 
 app.use(express.static('public'));
 
-// MAIN ROUTER
-const router_index = require('./routers');
-const midlleware_session = require('./middlewares/middleware_session');
-app.use('/', midlleware_session.init, router_index);
+// GIVE ROOT PATH FOR EJS INCLUDES
+const path = require('path');
+app.use((_,response,next)=>{
+  response.locals.rootpath = path.resolve('./app/views/');
+  next();
+})
 
-// PAGE NOT FOUND ROUTER
-const controller_error = require('./controllers/controller_error');
+// MAIN ROUTER & SESSION INIT
+const router_main = require('./app/routers/router_main');
+const midlleware_session = require('./app/middlewares/middleware_session');
+app.use('/', midlleware_session.init, router_main);
+
+// PAGE NOT FOUND AFTER ALL
+const controller_error = require('./app/controllers/controller_error');
 app.use(controller_error.error_404);
 
+const https = require('https');
+const fs = require('fs');
+const { response } = require('express');
+const { dirname } = require('path');
+const { pathToFileURL } = require('url');
 const APP_PORT = process.env.PORT;
 https.createServer({
   key: fs.readFileSync('key.pem'),
   cert: fs.readFileSync('cert.pem')
 }, app).listen(APP_PORT);
-
-// app.listen(PORT, () => {
-//   console.log(`Listening on ${PORT}`);
-// });

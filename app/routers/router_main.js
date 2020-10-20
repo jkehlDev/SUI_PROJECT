@@ -7,18 +7,16 @@
  * ----------------------------------------------------------------------------
  */
 
+const express = require('express');
+const controller_main = require('../controllers/controller_main');
+
 /**
  * @author KEHL Johann <jkehl.dev@gmail.com>
  * @version 1.0.0
  * @description Main router module.
  */
-
-const express = require('express');
-
-const controller_main = require('../controllers/');
 const router_main = express.Router();
 
 router_main.get('/', controller_main.homePage);
 
-// on exporte le Router_main 
 module.exports = router_main;

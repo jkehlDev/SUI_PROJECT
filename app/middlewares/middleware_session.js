@@ -10,19 +10,23 @@
 /**
  * @author KEHL Johann <jkehl.dev@gmail.com>
  * @version 1.0.0
- * @description Error controller module.
+ * @description Session middleware module.
  */
+const sessionMiddleware = {
 
-const controller_main = {
     /**
      * @method controller_main#homePage - GET HOME PAGE RENDERING
+     * @param {Express.Request} request - Express server request
      * @param {Express.Response} response - Express server response
      * @param {CallableFunction} next - next middleware
      */
-    error_404(_, response, next) {
-        response.status(404).render('errors/404');
+    init(request, response, next) {
+        if (!request.session.user) {
+            request.session.user = {
+
+            };
+        }
         next();
     }
-};
-
-module.exports = controller_main;
+}
+module.exports = sessionMiddleware;
