@@ -24,9 +24,9 @@ const dataMapper = {
      */
     setUser(user, callback) {
         const query = {
-            text: `INSERT INTO "users"("user_name","user_lastName","user_firstName","user_mail","user_password") VALUES ($1,$2,$3,$4,$5) RETURNING "user_name","user_lastName","user_firstName","user_mail"`
+            text: `INSERT INTO "users"("user_name","user_mail","user_password") VALUES ($1,$2,$3) RETURNING "user_name","user_mail"`
         };
-        dataBase_client.query(query,[user.user_name, user.user_lastName, user.user_firstName, user.user_mail, user.user_password], callback);
+        dataBase_client.query(query,[user.user_name, user.user_mail, user.user_password], callback);
     },
 };
 

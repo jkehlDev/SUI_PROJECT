@@ -22,7 +22,6 @@ const controller_main = {
      * @param {Express.Response} response - Express server response
      */
     homePage(request, response) {
-        console.log(request.session.user);
         response.render('index');
     },
     /**
@@ -30,7 +29,6 @@ const controller_main = {
      * @param {Express.Response} response - Express server response
      */
     getSignIn(request, response) {
-        console.log(request.session.user);
         response.render('signIn');
     },
     /**
@@ -48,7 +46,6 @@ const controller_main = {
      * @param {Express.Response} response - Express server response
      */
     getSignUp(request, response) {
-        console.log(request.session.user);
         response.render('signUp');
     },
     /**
@@ -58,8 +55,6 @@ const controller_main = {
     signUp(request, response) {
         const user = {};
         user.user_name = request.body.user_name;
-        user.user_lastName = request.body.user_lastName;
-        user.user_firstName = request.body.user_firstName;
         user.user_mail = request.body.user_mail;
         user.user_password = request.body.user_password;
 
@@ -78,15 +73,27 @@ const controller_main = {
             }            
         };
 
-        bcrypt.hash(user.user_password, 10, (error, hash) => {
-            if (error) {
+        const verifyUser = (error, results) => {
+            if(error){
                 response.status(406).render('errors/error_406');
                 return;
             }
-            user.user_password = hash;
-
-            dataMapper.setUser(user, setUser);
-        });
+            if(results.rows.length > 0 ){
+                response.render('signUp',{error : {message:"Nom d'utlisateur déjà utlisé."}});
+                return;
+            }else{
+                bcrypt.hash(user.user_password, 10, (error, hash) => {
+                    if (error) {
+                        response.status(406).render('errors/error_406');
+                        return;
+                    }
+                    user.user_password = hash;
+        
+                    dataMapper.setUser(user, setUser);
+                });
+            }            
+        };
+        dataMapper.getUser(user.user_name,verifyUser);        
     }
 
 };

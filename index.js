@@ -48,6 +48,7 @@ app.use(express.static('public'));
 const path = require('path');
 app.use((_,response,next)=>{
   response.locals.rootpath = path.resolve('./app/views/');
+  response.locals.error = null;
   next();
 })
 

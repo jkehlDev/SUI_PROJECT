@@ -1,25 +1,25 @@
-<%- include(rootpath+'/partials/header',{header:{title:'INDEX PAGE'}}) %>
+<%- include(rootpath+'/partials/header') %>
+<div class="h1__texthighlight">Rejoignez ProjectHub</div>
+<h1>Créez votre compte utilisateur</h1>
+<% if(error){ %>
+<div class="form--error"><%= error.message %></div>
+<% } %>
 <form action="/signup" method="post">
-    <label for="user_name">
-        User pseudo :
-        <input type="text" name="user_name" id="user_name">
+    <label class="form--labelBox" for="user_name">
+        <span class="form--label form--label--required">Nom utilisateur</span>
+        <input class="form--input" type="text" name="user_name" id="user_name" autofocus="autofocus"
+            placeholder="Nom utilisateur" required="true">
     </label>
-    <label for="user_lastName">
-        User last name :
-        <input type="text" name="user_lastName" id="user_lastName">
+    <label class="form--labelBox" for="user_mail">
+        <span class="form--label form--label--required">Votre Email</span>
+        <input class="form--input" type="email" name="user_mail" id="user_mail" placeholder="xxx@yyy.zzz"
+            required="true">
     </label>
-    <label for="user_firstName">
-        User first name :
-        <input type="text" name="user_firstName" id="user_firstName">
+    <label class="form--labelBox" for="user_password">
+        <span class="form--label form--label--required">Mot de passe</span>
+        <input class="form--input" type="password" name="user_password" id="user_password" placeholder="********"
+            required="true">
     </label>
-    <label for="user_mail">
-        User email :
-        <input type="email" name="user_mail" id="user_mail">
-    </label>
-    <label for="user_password">
-        User password :
-        <input type="password" name="user_password" id="user_password">
-    </label>
-    <button type="submit">submit</button>
+    <button class="form--submit" type="submit">submit</button>
 </form>
 <%- include(rootpath+'/partials/footer') %>
