@@ -44,11 +44,14 @@ app.use(session({
 
 app.use(express.static('public'));
 
-// GIVE ROOT PATH FOR EJS INCLUDES
+// SET LOCALS
+// GIVE ROOT PATH AND MESSAGE VAR FOR EJS INCLUDES
 const path = require('path');
-app.use((_,response,next)=>{
+app.use((_, response, next) => {
   response.locals.rootpath = path.resolve('./app/views/');
-  response.locals.error = null;
+  if (response.locals.message == null) {
+    response.locals.message = {};
+  }
   next();
 })
 
@@ -63,9 +66,6 @@ app.use(controller_error.error_404);
 
 const https = require('https');
 const fs = require('fs');
-const { response } = require('express');
-const { dirname } = require('path');
-const { pathToFileURL } = require('url');
 const APP_PORT = process.env.PORT;
 https.createServer({
   key: fs.readFileSync('key.pem'),

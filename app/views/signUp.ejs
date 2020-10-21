@@ -1,9 +1,6 @@
 <%- include(rootpath+'/partials/header') %>
 <div class="h1__texthighlight">Rejoignez ProjectHub</div>
 <h1>Créez votre compte utilisateur</h1>
-<% if(error){ %>
-<div class="form--error"><%= error.message %></div>
-<% } %>
 <form action="/signup" method="post">
     <label class="form--labelBox" for="user_name">
         <span class="form--label form--label--required">Nom utilisateur</span>

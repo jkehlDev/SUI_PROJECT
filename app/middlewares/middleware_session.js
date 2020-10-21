@@ -21,8 +21,17 @@ const sessionMiddleware = {
      * @param {CallableFunction} next - next middleware
      */
     init(request, response, next) {
-        if (!request.session.user) {
+        if (request.session.user == null) {
             request.session.user = {};
+        }
+        if (request.session.message == null) {
+            request.session.message = {};
+        }else{
+            const message = request.session.message;
+            if (Object.keys(message).length > 0) {
+                response.locals.message = request.session.message;
+                request.session.message = {};
+            }
         }
         next();
     }

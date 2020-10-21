@@ -1,0 +1,6 @@
+<% if(Object.keys(message).length > 0){ %>
+<div class="message">
+    <% if(message.error){ %><div class="message--error"><%= message.error %></div><% } %>
+    <% if(message.info){ %><div class="message--info"><%= message.info %></div><% } %>
+</div>
+<% } %>

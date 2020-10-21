@@ -33,10 +33,9 @@ CREATE TABLE IF NOT EXISTS "roleAppRules" (
 CREATE TABLE IF NOT EXISTS "users" (
   "user_id" SERIAL PRIMARY KEY,
   "user_name" TEXT NOT NULL,
-  "user_lastName" TEXT NOT NULL,
-  "user_firstName" TEXT NOT NULL,
   "user_mail" TEXT NOT NULL,
-  "user_password" TEXT NOT NULL
+  "user_password" TEXT NOT NULL,
+  CONSTRAINT "user" UNIQUE("user_name")
 );
 
 CREATE TABLE IF NOT EXISTS "roleUsersRules" (

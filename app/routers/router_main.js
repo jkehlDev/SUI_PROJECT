@@ -9,6 +9,7 @@
 
 const express = require('express');
 const controller_main = require('../controllers/controller_main');
+const controller_SignInUp = require('../controllers/controller_SignInUp');
 
 /**
  * @author KEHL Johann <jkehl.dev@gmail.com>
@@ -18,7 +19,9 @@ const controller_main = require('../controllers/controller_main');
 const router_main = express.Router();
 
 router_main.get('/', controller_main.homePage);
+router_main.get('/signin/', controller_main.getSignIn);
+router_main.post('/signin/', controller_SignInUp.signIn);
 router_main.get('/signup/', controller_main.getSignUp);
-router_main.post('/signup/', controller_main.signUp);
+router_main.post('/signup/', controller_SignInUp.signUp);
 
 module.exports = router_main;

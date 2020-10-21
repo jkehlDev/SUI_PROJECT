@@ -21,7 +21,7 @@ const controller_main = {
      * @method controller_main#homePage - GET HOME PAGE RENDERING
      * @param {Express.Response} response - Express server response
      */
-    homePage(request, response) {
+    homePage(request, response) {        
         response.render('index');
     },
     /**
@@ -32,16 +32,6 @@ const controller_main = {
         response.render('signIn');
     },
     /**
-     * @method controller_main#signIn - SIGN IN ACTION RENDERING
-     * @param {Express.Response} response - Express server response
-     */
-    signIn(request, response) {
-        const user_password = request.body.user_password;
-        const user_name = request.body.user_name;
-
-        response.render('index');
-    },
-     /**
      * @method controller_main#homePage - GET HOME PAGE RENDERING
      * @param {Express.Response} response - Express server response
      */
@@ -52,50 +42,6 @@ const controller_main = {
      * @method controller_main#signUp - SIGN UP ACTION RENDERING
      * @param {Express.Response} response - Express server response
      */
-    signUp(request, response) {
-        const user = {};
-        user.user_name = request.body.user_name;
-        user.user_mail = request.body.user_mail;
-        user.user_password = request.body.user_password;
-
-        const setUser = (error, results) => {
-            if(error){
-                response.status(406).render('errors/error_406');
-                return;
-            }
-            if(results.rows.length !== 1 ){
-                response.status(406).render('errors/error_406');
-                return;
-            }else{
-                const user = results.rows[0];
-                request.session.user = user;
-                response.redirect('/');
-            }            
-        };
-
-        const verifyUser = (error, results) => {
-            if(error){
-                response.status(406).render('errors/error_406');
-                return;
-            }
-            if(results.rows.length > 0 ){
-                response.render('signUp',{error : {message:"Nom d'utlisateur déjà utlisé."}});
-                return;
-            }else{
-                bcrypt.hash(user.user_password, 10, (error, hash) => {
-                    if (error) {
-                        response.status(406).render('errors/error_406');
-                        return;
-                    }
-                    user.user_password = hash;
-        
-                    dataMapper.setUser(user, setUser);
-                });
-            }            
-        };
-        dataMapper.getUser(user.user_name,verifyUser);        
-    }
-
 };
 
 module.exports = controller_main;
