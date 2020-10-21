@@ -37,11 +37,7 @@ const controller_main = {
      */
     getSignUp(request, response) {
         response.render('signUp');
-    },
-    /**
-     * @method controller_main#signUp - SIGN UP ACTION RENDERING
-     * @param {Express.Response} response - Express server response
-     */
+    }
 };
 
 module.exports = controller_main;

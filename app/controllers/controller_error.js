@@ -6,9 +6,6 @@
  * this stuff is worth it, you can buy me a beer in return Johann KEHL.
  * ----------------------------------------------------------------------------
  */
-
-const { request } = require("express");
-
 /**
  * @author KEHL Johann <jkehl.dev@gmail.com>
  * @version 1.0.0

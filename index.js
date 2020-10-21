@@ -74,6 +74,7 @@ https.createServer({
   cert: fs.readFileSync('cert.pem')
 }, app).listen(APP_PORT_HTTPS);
 
+// REDIRECTION FROM HTTP TO HTTPS
 const http = require('http');
 const APP_PORT_HTTP = process.env.PORT_HTTP;
 const redirectApp = express();
