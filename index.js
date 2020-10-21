@@ -64,10 +64,24 @@ app.use('/', midlleware_session.init, router_main);
 const controller_error = require('./app/controllers/controller_error');
 app.use(controller_error.error_404);
 
+
+// CREATE SERVER
 const https = require('https');
+const APP_PORT_HTTPS = process.env.PORT_HTTPS;
 const fs = require('fs');
-const APP_PORT = process.env.PORT;
 https.createServer({
   key: fs.readFileSync('key.pem'),
   cert: fs.readFileSync('cert.pem')
-}, app).listen(APP_PORT);
+}, app).listen(APP_PORT_HTTPS);
+
+const http = require('http');
+const APP_PORT_HTTP = process.env.PORT_HTTP;
+const redirectApp = express();
+redirectApp.use((request, response, next) => {
+  if (!request.secure) {
+    return response.status(301).redirect('https://' + request.headers.host.replace(":" + APP_PORT_HTTP,":" + APP_PORT_HTTPS ) + "/");
+  }
+  return next();
+});
+const redirectServer = http.createServer(redirectApp);
+redirectServer.listen(APP_PORT_HTTP);
