@@ -22,10 +22,31 @@ const controller_signInUp = {
      * @param {Express.Response} response - Express server response
      */
     signIn(request, response) {
-        const user_password = request.body.user_password;
-        const user_name = request.body.user_name;
+        let user = {};
+        user.user_name = request.body.user_name;
 
-        response.render('index');
+        const verifyUser = (error, results) => {
+            if (error) {
+                response.status(406).render('errors/error_406');
+                return;
+            }
+            let isSignIn = false;
+            if (results.rows.length == 1) {
+                if(bcrypt.compareSync(request.body.user_password, results.rows[0].user_password)){
+                    user = results.rows[0];
+                    isSignIn = true;
+                }                
+            }            
+            if(isSignIn){
+                request.session.user = user;
+                request.session.message.info = 'Bienvenu ' + user.user_name + '.';
+                response.redirect('/');
+            }else{
+                response.locals.message.error = 'Login incorrect.';
+                response.render('signIn');
+            }
+        };
+        dataMapper.getUser(user.user_name, verifyUser);
     },
     /**
      * @method controller_signInUp#signUp - SIGN UP ACTION RENDERING

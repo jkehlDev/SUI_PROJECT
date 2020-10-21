@@ -38,6 +38,11 @@ header {
     color: white;
 }
 
+header a.home--link{
+    color: white;
+    text-decoration: none;
+}
+
 header h1 {
     flex-grow: 0;
 
