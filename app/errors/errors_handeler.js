@@ -23,7 +23,7 @@ const error_handeler = {
      */
     redirectHtmlError(error, renderPage, request, response) {
         console.error(error);
-        if (messages[error.code]) {
+        if (messages[error.code]!=null) {
             request.session.message.error = messages[error.code];
         } else {
             request.session.message.error = error.code + '::' + error.message;

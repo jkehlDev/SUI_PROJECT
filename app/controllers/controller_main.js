@@ -21,15 +21,17 @@ const controller_main = {
      * @method controller_main#homePage - GET HOME PAGE RENDERING
      * @param {Express.Response} response - Express server response
      */
-    homePage(_, response) {        
+    homePage(_, response) {
         response.render('index');
     },
-    
+
     /**
      * @method controller_main#getMentions - GET LEGAL MENTIONS PAGE RENDERING
      * @param {Express.Response} response - Express server response
      */
-    getMentions(_, response) {        
+    getMentions(_, response) {
+        const mentions_data = require('../data/mentions_legals.json')
+        response.locals.mentions = mentions_data;
         response.render('mentions');
     },
 
@@ -48,12 +50,12 @@ const controller_main = {
     getSignIn(_, response) {
         response.render('signIn');
     },
-    
+
     /**
      * @method controller_main#getProfil - GET PROFIL PAGE RENDERING
      * @param {Express.Response} response - Express server response
      */
-    getProfil(_, response) {        
+    getProfil(_, response) {
         response.render('profil');
     },
 
@@ -62,11 +64,19 @@ const controller_main = {
      * @param {Express.Request} request - Express server request
      * @param {Express.Response} response - Express server response
      */
-    getSignOut(request, response) {        
+    getSignOut(request, response) {
         request.session.user = null;
-        request.session.message.info = "Vous êtes déconnecté." ;
+        request.session.message.info = "Vous êtes déconnecté.";
         response.redirect('/');
-    }    
+    },
+
+    /**
+     * @method controller_main#getDeleteProfil - GET DELETE ACCOUNT PAGE RENDERING
+     * @param {Express.Response} response - Express server response
+     */
+    getDeleteProfil(request, response) {
+        response.render('delete_account');
+    },
 };
 
 module.exports = controller_main;

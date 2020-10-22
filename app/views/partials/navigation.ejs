@@ -1,7 +1,7 @@
 <nav class="nav--bar">
     <% if(user.isSignIn){ %>
-    <a class="nav--link--profil" title="Page du profil utilisateur" href="/profil"><%= user.user_name %></a>
-    <a class="nav--link" title="Action de déconnexion" href="/signout">Sign out</a>
+    <a class="nav--link--profil" title="Profil utilisateur" href="/profil"><%= user.user_name %></a>
+    <a class="nav--link" title="Me déconnecter" href="/signout">Sign out</a>
     <% }else{ %>
     <a class="nav--link" title="Page de connexion" href="/signin">Sign in</a>
     <a class="nav--link" title="Page de création d'un compte utlisateur" href="/signup">Sign up</a>

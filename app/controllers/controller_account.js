@@ -74,7 +74,7 @@ const controller_signInUp = {
             } else {
                 const user = results.rows[0];
                 request.session.user = user;
-                request.session.message.info = 'Nouvel utilisateur enregistré.';
+                request.session.message.info = 'Compte utilisateur ajouté.';
                 response.redirect('/');
             }
         };
@@ -95,11 +95,50 @@ const controller_signInUp = {
                         return;
                     }
                     user.user_password = hash;
-                    dataMapper.setUser(user, setUser);
+                    dataMapper.addUser(user, setUser);
                 });
             }
         };
         dataMapper.getUser(user.user_name, verifyUser);
-    }
+    },
+        /**
+     * @method controller_signInUp#deleteProfil - POST SIGN UP ACTION TRAITEMENT
+     * @param {Express.Request} request - Express server request
+     * @param {Express.Response} response - Express server response
+     */
+    deleteProfil(request, response) {
+        const user = {};
+        user.user_name = request.session.user.user_name;
+        user.user_password = request.body.user_password;
+
+        const deleteUser = (error, results) => {
+            if (error) {
+                errorHandeler.redirectHtmlError(error, '/error/error_406', request, response);
+                return;
+            }
+                request.session.user = null;
+                request.session.message.info = 'Compte utilisateur supprimé.';
+                response.redirect('/');
+        };
+        const verifyUser = (error, results) => {
+            if (error) {
+                errorHandeler.redirectHtmlError(error, '/error/error_406', request, response);
+                return;
+            }
+            let isSignIn = false;
+            if (results.rows.length == 1) {
+                if (bcrypt.compareSync(request.body.user_password, results.rows[0].user_password)) {
+                    isSignIn = true;
+                }
+            }
+            if (isSignIn) {
+                dataMapper.deleteUser(user.user_name, deleteUser);
+            } else {
+                response.locals.message.error = 'Login incorrect.';
+                response.render('profil');
+            }
+        };
+        dataMapper.getUser(user.user_name, verifyUser);
+    },
 };
 module.exports = controller_signInUp;

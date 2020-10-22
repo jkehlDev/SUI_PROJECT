@@ -17,16 +17,29 @@ const dataMapper = {
         };
         dataBase_client.query(query,[user_name], callback);
     },
+    
     /**
-     * @method dataMapper#getAllRoles - SET USER REQUEST
+     * @method dataMapper#addUser - ADD USER REQUEST
      * @param {String} user_name User name
      * @param {CallableFunction} callback (err: Error, result: QueryArrayResult<R>) - Function call after resolve request.
      */
-    setUser(user, callback) {
+    addUser(user, callback) {
         const query = {
             text: `INSERT INTO "users"("user_name","user_mail","user_password") VALUES ($1,$2,$3) RETURNING "user_name","user_mail"`
         };
         dataBase_client.query(query,[user.user_name, user.user_mail, user.user_password], callback);
+    },
+
+    /**
+     * @method dataMapper#deleteUser - DELETE USER REQUEST
+     * @param {String} user_name User name
+     * @param {CallableFunction} callback (err: Error, result: QueryArrayResult<R>) - Function call after resolve request.
+     */
+    deleteUser(user_name, callback) {
+        const query = {
+            text: `DELETE FROM "users" WHERE "user_name" = $1`
+        };
+        dataBase_client.query(query,[user_name], callback);
     },
 };
 
