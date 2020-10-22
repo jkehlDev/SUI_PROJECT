@@ -6,7 +6,7 @@
  * this stuff is worth it, you can buy me a beer in return Johann KEHL.
  * ----------------------------------------------------------------------------
  */
-
+const mentions_data = require('../data/mentions_legals.json')
 /**
  * @author KEHL Johann <jkehl.dev@gmail.com>
  * @version 1.0.0
@@ -36,6 +36,7 @@ const sessionMiddleware = {
             }
         }
         response.locals.user = request.session.user;
+        response.locals.mentions = mentions_data;
         next();
     }
 }
