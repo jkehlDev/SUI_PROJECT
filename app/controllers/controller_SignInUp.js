@@ -42,7 +42,7 @@ const controller_signInUp = {
             if (isSignIn) {
                 user.isSignIn = true;
                 request.session.user = user;
-                request.session.message.info = 'Bienvenu ' + user.user_name + '.';
+                request.session.message.info = 'Bienvenue ' + user.user_name + '.';
                 response.redirect('/');
             } else {
                 response.locals.message.error = 'Login incorrect.';

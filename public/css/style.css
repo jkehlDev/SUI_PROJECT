@@ -95,7 +95,7 @@ header a.nav--link--profil{
     font-size: 0.9rem;
     font-weight: normal;
     color: white;
-    text-transform: capitalize;
+    text-transform: none;
     text-decoration: none;
     border-radius: 0.5rem;
 
