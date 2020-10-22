@@ -13,33 +13,46 @@
  */
 
 const controller_error = {
+
     /**
      * @method controller_error#error_404 - GET ERROR 404 PAGE RENDERING
      * @param {Express.Request} request - Express server request
      * @param {Express.Response} response - Express server response
      * @param {CallableFunction} next - next Express middleware
      */
-    error_404(request, response, next) {
-        response.status(404).render('errors/error_404',{errorUrl : request.url});
-        next();
+    error_404(request, response) {
+        response.status(404).render('errors/error_404', {
+            errorUrl: request.url
+        });
     },
     /**
-     * @method controller_error#error_406 - GET ERROR 404 PAGE RENDERING
+     * @method controller_error#error_406 - GET ERROR 406 PAGE RENDERING
      * @param {Express.Response} response - Express server response
      * @param {CallableFunction} next - next Express middleware
      */
-    error_406(_, response, next) {
-        response.status(406).render('errors/error_406');
-        next();
+    error_406(_, response) {
+        const message = request.session.message;
+        if (Object.keys(message).length > 0) {
+            response.locals.message = request.session.message;
+            request.session.message = {};
+            response.status(406).render('errors/error_406');
+        } else {
+            response.redirect('/');
+        }
     },
     /**
-     * @method controller_error#error_503 - GET ERROR 404 PAGE RENDERING
+     * @method controller_error#error_503 - GET ERROR 503 PAGE RENDERING
      * @param {Express.Response} response - Express server response
      * @param {CallableFunction} next - next Express middleware
      */
-    error_503(_, response, next) {
-        response.status(503).render('errors/error_503');
-        next();
+    error_503(_, response) {
+        if (Object.keys(message).length > 0) {
+            response.locals.message = request.session.message;
+            request.session.message = {};
+            response.status(503).render('errors/error_503');
+        } else {
+            response.redirect('/');
+        }
     }
 };
 

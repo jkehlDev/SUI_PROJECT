@@ -21,23 +21,52 @@ const controller_main = {
      * @method controller_main#homePage - GET HOME PAGE RENDERING
      * @param {Express.Response} response - Express server response
      */
-    homePage(request, response) {        
+    homePage(_, response) {        
         response.render('index');
     },
+    
     /**
-     * @method controller_main#signIn - SIGN IN ACTION RENDERING
+     * @method controller_main#getMentions - GET LEGAL MENTIONS PAGE RENDERING
      * @param {Express.Response} response - Express server response
      */
-    getSignIn(request, response) {
+    getMentions(_, response) {        
+        response.render('mentions');
+    },
+
+    /**
+     * @method controller_main#homePage - GET SIGN UP PAGE RENDERING
+     * @param {Express.Response} response - Express server response
+     */
+    getSignUp(_, response) {
+        response.render('signUp');
+    },
+
+    /**
+     * @method controller_main#signIn - GET SIGN IN ACTION RENDERING
+     * @param {Express.Response} response - Express server response
+     */
+    getSignIn(_, response) {
         response.render('signIn');
     },
+    
     /**
-     * @method controller_main#homePage - GET HOME PAGE RENDERING
+     * @method controller_main#getProfil - GET PROFIL PAGE RENDERING
      * @param {Express.Response} response - Express server response
      */
-    getSignUp(request, response) {
-        response.render('signUp');
-    }
+    getProfil(_, response) {        
+        response.render('profil');
+    },
+
+    /**
+     * @method controller_main#getSignOut - GET HOME PAGE RENDERING FROM SIGNOUT ACTION
+     * @param {Express.Request} request - Express server request
+     * @param {Express.Response} response - Express server response
+     */
+    getSignOut(request, response) {        
+        request.session.user = null;
+        request.session.message.info = "Vous êtes déconnecté." ;
+        response.redirect('/');
+    }    
 };
 
 module.exports = controller_main;

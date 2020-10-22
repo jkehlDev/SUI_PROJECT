@@ -1,7 +1,8 @@
-<%- include(rootpath+'/partials/header',{header:{title:'ERROR 404 - Page not found'}}) %>
+<%- include(rootpath+'/partials/header') %>
 
+<h1>ERROR 404 - Page not found</h1>
 <div class="error__message">
-  Sorry, the page {<%= errorUrl %>} you request isn't exist any more, please go back.
+  Sorry, the page {<%= errorUrl %>} you request isn't exist, please go back.
 </div>
 
 <%- include(rootpath+'/partials/footer') %>

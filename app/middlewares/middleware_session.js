@@ -22,17 +22,20 @@ const sessionMiddleware = {
      */
     init(request, response, next) {
         if (request.session.user == null) {
-            request.session.user = {};
+            request.session.user = {
+                isSignIn: false
+            };
         }
         if (request.session.message == null) {
             request.session.message = {};
-        }else{
+        } else {
             const message = request.session.message;
             if (Object.keys(message).length > 0) {
                 response.locals.message = request.session.message;
                 request.session.message = {};
             }
         }
+        response.locals.user = request.session.user;
         next();
     }
 }

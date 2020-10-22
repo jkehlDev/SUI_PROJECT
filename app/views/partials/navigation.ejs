@@ -1,4 +1,9 @@
 <nav class="nav--bar">
-    <a class="nav--link" href="/SignIn">Sign in</a>
-    <a class="nav--link" href="/SignUp">Sign up</a>
+    <% if(user.isSignIn){ %> 
+        <a class="nav--link--profil" title="Profil utlisateur" href="/profil"><%= user.user_name %></a>
+        <a class="nav--link" title="Déconnexion" href="/signout">Sign out</a>
+    <% }else{ %>
+    <a class="nav--link" title="Connexion" href="/signin">Sign in</a>
+    <a class="nav--link" title="Créer un compte utlisateur" href="/signup">Sign up</a>
+    <% } %>
 </nav>

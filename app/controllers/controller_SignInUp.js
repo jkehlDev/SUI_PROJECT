@@ -9,6 +9,7 @@
 
 const bcrypt = require('bcrypt');
 const dataMapper = require('../DB/dataMapper');
+const errorHandeler = require('../errors/errors_handeler');
 
 /**
  * @author KEHL Johann <jkehl.dev@gmail.com>
@@ -18,7 +19,8 @@ const dataMapper = require('../DB/dataMapper');
 
 const controller_signInUp = {
     /**
-     * @method controller_signInUp#signIn - SIGN IN ACTION RENDERING
+     * @method controller_signInUp#signIn - POST SIGN IN ACTION TRAITEMENT
+     * @param {Express.Request} request - Express server request
      * @param {Express.Response} response - Express server response
      */
     signIn(request, response) {
@@ -27,29 +29,32 @@ const controller_signInUp = {
 
         const verifyUser = (error, results) => {
             if (error) {
-                response.status(406).render('errors/error_406');
+                errorHandeler.redirectHtmlError(error, '/error/error_406', request, response);
                 return;
             }
             let isSignIn = false;
             if (results.rows.length == 1) {
-                if(bcrypt.compareSync(request.body.user_password, results.rows[0].user_password)){
+                if (bcrypt.compareSync(request.body.user_password, results.rows[0].user_password)) {
                     user = results.rows[0];
                     isSignIn = true;
-                }                
-            }            
-            if(isSignIn){
+                }
+            }
+            if (isSignIn) {
+                user.isSignIn = true;
                 request.session.user = user;
                 request.session.message.info = 'Bienvenu ' + user.user_name + '.';
                 response.redirect('/');
-            }else{
+            } else {
                 response.locals.message.error = 'Login incorrect.';
                 response.render('signIn');
             }
         };
         dataMapper.getUser(user.user_name, verifyUser);
     },
+
     /**
-     * @method controller_signInUp#signUp - SIGN UP ACTION RENDERING
+     * @method controller_signInUp#signUp - POST SIGN UP ACTION TRAITEMENT
+     * @param {Express.Request} request - Express server request
      * @param {Express.Response} response - Express server response
      */
     signUp(request, response) {
@@ -60,7 +65,7 @@ const controller_signInUp = {
 
         const setUser = (error, results) => {
             if (error) {
-                response.status(406).render('errors/error_406');
+                errorHandeler.redirectHtmlError(error, '/error/error_406', request, response);
                 return;
             }
             if (results.rows.length !== 1) {
@@ -76,7 +81,7 @@ const controller_signInUp = {
 
         const verifyUser = (error, results) => {
             if (error) {
-                response.status(406).render('errors/error_406');
+                errorHandeler.redirectHtmlError(error, '/error/error_406', request, response);
                 return;
             }
             if (results.rows.length > 0) {
@@ -86,7 +91,7 @@ const controller_signInUp = {
             } else {
                 bcrypt.hash(user.user_password, 10, (error, hash) => {
                     if (error) {
-                        response.status(406).render('errors/error_406');
+                        errorHandeler.redirectHtmlError(error, '/error/error_406', request, response);
                         return;
                     }
                     user.user_password = hash;
@@ -96,7 +101,5 @@ const controller_signInUp = {
         };
         dataMapper.getUser(user.user_name, verifyUser);
     }
-
 };
-
 module.exports = controller_signInUp;
