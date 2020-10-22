@@ -36,6 +36,14 @@ const controller_main = {
     },
 
     /**
+     * @method controller_main#getCookiesConsent - GET COOKIES CONSENT PAGE RENDERING
+     * @param {Express.Response} response - Express server response
+     */
+    getCookiesConsent(_, response) {
+        response.render('cookies_consent');
+    },
+
+    /**
      * @method controller_main#homePage - GET SIGN UP PAGE RENDERING
      * @param {Express.Response} response - Express server response
      */

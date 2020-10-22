@@ -24,6 +24,7 @@ const router_main = express.Router();
 
 router_main.get('/', controller_main.homePage);
 router_main.get('/mentions', controller_main.getMentions);
+router_main.get('/cookies-consent-info', controller_main.getCookiesConsent);
 
 
 router_main.get('/signup/', controller_main.getSignUp);
