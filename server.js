@@ -21,25 +21,30 @@ app.set('view engine', 'ejs');
 app.set('views', './app/views');
 
 app.use(express.urlencoded({
-  extended: true
+    extended: true
 }));
 
 const helmet = require('helmet');
 app.use(helmet());
 
 const session = require('express-session');
-const secret = process.env.SESSPASSPHRASE;
+// const secret = process.env.SESSPASSPHRASE;
+const randomString = require('randomstring');
+const secret = randomString.generate({
+    length: 14,
+    charset: 'alphanumeric'
+});
 app.use(session({
-  secret,
-  saveUninitialized: true,
-  resave: true,
-  cookie: {
-    secure: true,
-    httpOnly: true,
-    //  domain: 'example.com',
-    //  path: 'foo/bar',
-    maxAge: (1000 * 60 * 60)
-  }
+    secret,
+    saveUninitialized: true,
+    resave: true,
+    cookie: {
+        secure: true,
+        httpOnly: true,
+        //  domain: 'example.com',
+        //  path: 'foo/bar',
+        maxAge: (1000 * 60 * 60)
+    }
 }));
 
 // const session = require('express-session');
@@ -63,11 +68,11 @@ app.use(express.static('public'));
 // GIVE ROOT PATH AND MESSAGE VAR FOR EJS INCLUDES
 const path = require('path');
 app.use((_, response, next) => {
-  response.locals.rootpath = path.resolve('./app/views/');
-  if (response.locals.message == null) {
-    response.locals.message = {};
-  }
-  next();
+    response.locals.rootpath = path.resolve('./app/views/');
+    if (response.locals.message == null) {
+        response.locals.message = {};
+    }
+    next();
 })
 
 // MAIN ROUTER & SESSION INIT
@@ -85,8 +90,8 @@ const https = require('https');
 const APP_PORT_HTTPS = process.env.PORT_HTTPS;
 const fs = require('fs');
 https.createServer({
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem')
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
 }, app).listen(APP_PORT_HTTPS);
 
 // const http = require('http');
@@ -99,10 +104,10 @@ const http = require('http');
 const APP_PORT_HTTP = process.env.PORT_HTTP;
 const redirectApp = express();
 redirectApp.use((request, response, next) => {
-  if (!request.secure) {
-    return response.status(301).redirect('https://' + request.headers.host.replace(":" + APP_PORT_HTTP,":" + APP_PORT_HTTPS ) + "/");
-  }
-  return next();
+    if (!request.secure) {
+        return response.status(301).redirect('https://' + request.headers.host.replace(":" + APP_PORT_HTTP, ":" + APP_PORT_HTTPS) + "/");
+    }
+    return next();
 });
 const redirectServer = http.createServer(redirectApp);
 redirectServer.listen(APP_PORT_HTTP);
