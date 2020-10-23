@@ -1,3 +1,5 @@
+BEGIN;
+
 -- DROP EXISTING TABLE
 DROP TABLE IF EXISTS "roleAppRules";
 DROP TABLE IF EXISTS "roleUsersRules";
@@ -45,6 +47,8 @@ CREATE TABLE IF NOT EXISTS "roleUsersRules" (
   FOREIGN KEY("rule_roleId") REFERENCES "roles"("role_id"),
   FOREIGN KEY("rule_userId") REFERENCES "users"("user_id")
 );
+
+COMMIT;
 
 -- POPULATE FRESH TABLE
 
