@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const sequelize = require('../../DB/sequelize_client');
+
 const {
     DataTypes,
     Model
@@ -34,6 +35,7 @@ User.init({
 });
 
 User.beforeCreate(function (user) {
+    
     bcrypt.hash(user.password, 10, (error, hash) => {
         if (error) {
             console.error(error);

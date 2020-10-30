@@ -8,6 +8,7 @@
  */
 
 const bcrypt = require('bcrypt');
+const email_validator = require('email-validator');
 const {
     User
 } = require('../models/user');
@@ -54,11 +55,25 @@ const controller_user = {
      * @param {Express.Response} response - Express server response
      */
     signUp(request, response) {
-        if (request.body.user_password != request.body.user_passwordConfirm) {
+        if (!email_validator.validate(request.body.user_email)) {
+            response.locals.message.error = `Impossible de créer l'utilisateur : Votre email est invalide.`;
+            response.locals.fields = {
+                user_name: request.body.user_name,
+                user_email: '',
+            };
+            response.render('signup');
+        } else if (request.body.user_password.length < 8) {
+            response.locals.message.error = `Impossible de créer l'utilisateur : Le mot de passe doit contenir au minimum 8 caractères.`;
+            response.locals.fields = {
+                user_name: request.body.user_name,
+                user_email: request.body.user_email,
+            };
+            response.render('signup');
+        } else if (request.body.user_password != request.body.user_passwordConfirm) {
             response.locals.message.error = `Impossible de créer l'utilisateur : Confirmation du mot de passe erronée.`;
             response.locals.fields = {
-                user_name : request.body.user_name,
-                user_email : request.body.user_email,
+                user_name: request.body.user_name,
+                user_email: request.body.user_email,
             };
             response.render('signup');
         } else {
@@ -84,7 +99,7 @@ const controller_user = {
             }).catch(renderError.renderError);
         }
     },
-    
+
     /**
      * @method controller_user#deleteProfil - POST SIGN UP ACTION TRAITEMENT
      * @param {Express.Request} request - Express server request
