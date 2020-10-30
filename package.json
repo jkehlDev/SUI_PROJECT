@@ -24,6 +24,7 @@
         "express-session": "^1.17.1",
         "helmet": "^4.1.1",
         "pg": "^8.4.1",
-        "randomstring": "^1.1.5"
+        "randomstring": "^1.1.5",
+        "sequelize": "^6.3.5"
     }
 }

@@ -13,7 +13,7 @@ const {
 
 const express = require('express');
 const controller_main = require('../controllers/controller_main');
-const controller_account = require('../controllers/controller_account');
+const controller_user = require('../controllers/controller_user');
 
 /**
  * @author KEHL Johann <jkehl.dev@gmail.com>
@@ -27,11 +27,11 @@ router_main.get('/mentions', controller_main.getMentions);
 router_main.get('/cookies-consent-info', controller_main.getCookiesConsent);
 
 
-router_main.get('/signup/', controller_main.getSignUp);
-router_main.get('/signin/', controller_main.getSignIn);
+router_main.get('/signup/', controller_user.getSignUp);
+router_main.get('/signin/', controller_user.getSignIn);
 
-router_main.post('/signin/', controller_account.signIn);
-router_main.post('/signup/', controller_account.signUp);
+router_main.post('/signin/', controller_user.signIn);
+router_main.post('/signup/', controller_user.signUp);
 
 // PAGES APRES SIGN IN SINON REDIRECTION VERS SIGNUP
 router_main.use((request, response, next) => {
@@ -42,10 +42,10 @@ router_main.use((request, response, next) => {
     next();
 });
 
-router_main.get('/profil', controller_main.getProfil);
-router_main.get('/signout/', controller_main.getSignOut);
-router_main.get('/profil/delete', controller_main.getDeleteProfil);
+router_main.get('/profil', controller_user.getProfil);
+router_main.get('/signout/', controller_user.getSignOut);
+router_main.get('/profil/delete', controller_user.getDeleteProfil);
 
-router_main.post('/profil/delete', controller_account.deleteProfil);
+router_main.post('/profil/delete', controller_user.deleteProfil);
 
 module.exports = router_main;

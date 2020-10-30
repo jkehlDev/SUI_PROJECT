@@ -7,9 +7,6 @@
  * ----------------------------------------------------------------------------
  */
 
-const bcrypt = require('bcrypt');
-const dataMapper = require('../DB/dataMapper');
-
 /**
  * @author KEHL Johann <jkehl.dev@gmail.com>
  * @version 1.0.0
@@ -43,48 +40,7 @@ const controller_main = {
         response.render('cookies_consent');
     },
 
-    /**
-     * @method controller_main#homePage - GET SIGN UP PAGE RENDERING
-     * @param {Express.Response} response - Express server response
-     */
-    getSignUp(_, response) {
-        response.render('signUp');
-    },
-
-    /**
-     * @method controller_main#signIn - GET SIGN IN ACTION RENDERING
-     * @param {Express.Response} response - Express server response
-     */
-    getSignIn(_, response) {
-        response.render('signIn');
-    },
-
-    /**
-     * @method controller_main#getProfil - GET PROFIL PAGE RENDERING
-     * @param {Express.Response} response - Express server response
-     */
-    getProfil(_, response) {
-        response.render('profil');
-    },
-
-    /**
-     * @method controller_main#getSignOut - GET HOME PAGE RENDERING FROM SIGNOUT ACTION
-     * @param {Express.Request} request - Express server request
-     * @param {Express.Response} response - Express server response
-     */
-    getSignOut(request, response) {
-        request.session.user = null;
-        request.session.message.info = "Vous êtes déconnecté.";
-        response.redirect('/');
-    },
-
-    /**
-     * @method controller_main#getDeleteProfil - GET DELETE ACCOUNT PAGE RENDERING
-     * @param {Express.Response} response - Express server response
-     */
-    getDeleteProfil(request, response) {
-        response.render('delete_account');
-    },
+    
 };
 
 module.exports = controller_main;

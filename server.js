@@ -28,7 +28,6 @@ const helmet = require('helmet');
 app.use(helmet());
 
 const session = require('express-session');
-// const secret = process.env.SESSPASSPHRASE;
 const randomString = require('randomstring');
 const secret = randomString.generate({
     length: 14,
@@ -46,21 +45,6 @@ app.use(session({
         maxAge: (1000 * 60 * 60)
     }
 }));
-
-// const session = require('express-session');
-// const secret = process.env.SESSPASSPHRASE;
-// app.use(session({
-//   secret,
-//   saveUninitialized: true,
-//   resave: true,
-//   cookie: {
-//     secure: false,
-//     httpOnly: false,
-//     //  domain: 'example.com',
-//     //  path: 'foo/bar',
-//     maxAge: (1000 * 60 * 60)
-//   }
-// }));
 
 app.use(express.static('public'));
 
@@ -93,11 +77,6 @@ https.createServer({
     key: fs.readFileSync('key.pem'),
     cert: fs.readFileSync('cert.pem')
 }, app).listen(APP_PORT_HTTPS);
-
-// const http = require('http');
-// const APP_PORT_HTTP = process.env.PORT_HTTP;
-// http.createServer(app).listen(APP_PORT_HTTP);
-
 
 // REDIRECTION FROM HTTP TO HTTPS
 const http = require('http');
