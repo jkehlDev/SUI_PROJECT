@@ -56,6 +56,10 @@ const controller_user = {
     signUp(request, response) {
         if (request.body.user_password != request.body.user_passwordConfirm) {
             response.locals.message.error = `Impossible de créer l'utilisateur : Confirmation du mot de passe erronée.`;
+            response.locals.fields = {
+                user_name : request.body.user_name,
+                user_email : request.body.user_email,
+            };
             response.render('signup');
         } else {
             const renderError = new RenderError(request, response);
@@ -71,7 +75,7 @@ const controller_user = {
                 }
                 User.create({
                     name: request.body.user_name,
-                    email: request.body.user_mail,
+                    email: request.body.user_email,
                     password: request.body.user_password,
                 }).then(() => {
                     request.session.message.info = 'Compte utilisateur ajouté. Vous pouvez vous identifier.';

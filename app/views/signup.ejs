@@ -5,12 +5,12 @@
     <label class="form--labelBox" for="user_name">
         <span class="form--label form--label--required">Nom utilisateur</span>
         <input class="form--input" type="text" name="user_name" id="user_name" autofocus="autofocus"
-            placeholder="Nom utilisateur" required="true">
+            placeholder="Nom utilisateur" required="true" value="<%= locals.fields ? fields.user_name : ''%>">
     </label>
-    <label class="form--labelBox" for="user_mail">
+    <label class="form--labelBox" for="user_email">
         <span class="form--label form--label--required">Votre Email</span>
-        <input class="form--input" type="email" name="user_mail" id="user_mail" placeholder="xxx@yyy.zzz"
-            required="true">
+        <input class="form--input" type="email" name="user_email" id="user_email" placeholder="xxx@yyy.zzz"
+            required="true" value="<%= locals.fields ? fields.user_email : ''%>">
     </label>
     <label class="form--labelBox" for="user_password">
         <span class="form--label form--label--required">Mot de passe</span>
