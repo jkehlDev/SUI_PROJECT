@@ -30,14 +30,8 @@ const controller_error = {
      * @param {CallableFunction} next - next Express middleware
      */
     error_406(_, response) {
-        const message = request.session.message;
-        if (Object.keys(message).length > 0) {
-            response.locals.message = request.session.message;
-            request.session.message = {};
-            response.status(406).render('errors/error_406');
-        } else {
-            response.redirect('/');
-        }
+        response.status(406).render('errors/error_406');
+
     },
     /**
      * @method controller_error#error_503 - GET ERROR 503 PAGE RENDERING
@@ -45,13 +39,7 @@ const controller_error = {
      * @param {CallableFunction} next - next Express middleware
      */
     error_503(_, response) {
-        if (Object.keys(message).length > 0) {
-            response.locals.message = request.session.message;
-            request.session.message = {};
-            response.status(503).render('errors/error_503');
-        } else {
-            response.redirect('/');
-        }
+        response.status(503).render('errors/error_503');
     }
 };
 

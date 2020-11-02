@@ -52,25 +52,26 @@ app.use(express.static('public'));
 // GIVE ROOT PATH AND MESSAGE VAR FOR EJS INCLUDES
 const path = require('path');
 app.use((_, response, next) => {
-    response.locals.rootpath = path.resolve('./app/views/');
-    if (response.locals.message == null) {
-        response.locals.message = {};
-    }
+   
     next();
 })
 
-// MAIN ROUTER & SESSION INIT
+// TABLE ROUTING
+const midlleware_server = require('./app/middlewares/middleware_server');
 const router_main = require('./app/routers/router_main');
-const midlleware_session = require('./app/middlewares/middleware_session');
-app.use('/', midlleware_session.init, router_main);
+app.use('/', midlleware_server.initilizeLocalsNdSession, router_main);
+
 const router_user = require('./app/routers/router_user');
-app.use('/user', midlleware_session.redirect,router_user);
+app.use('/user', midlleware_server.isSignInOrRedirect, router_user);
+
 const router_admin = require('./app/routers/router_admin');
-app.use('/admin', midlleware_session.isAdmin,router_admin);
+app.use('/admin', midlleware_server.isAdminOrRedirect, router_admin);
+
+const router_error = require('./app/routers/router_error');
+app.use('/error', router_error);
 
 // PAGE NOT FOUND AFTER ALL
-const controller_error = require('./app/controllers/controller_error');
-app.use(controller_error.error_404);
+app.use(midlleware_server.redirect404);
 
 // CREATE SERVER
 const https = require('https');
@@ -83,6 +84,7 @@ https.createServer({
 
 // REDIRECTION FROM HTTP TO HTTPS
 const http = require('http');
+const router_error = require('./app/routers/router_error');
 const APP_PORT_HTTP = process.env.PORT_HTTP;
 const redirectApp = express();
 redirectApp.use((request, response, next) => {

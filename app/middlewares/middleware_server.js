@@ -6,12 +6,14 @@
  * this stuff is worth it, you can buy me a beer in return Johann KEHL.
  * ----------------------------------------------------------------------------
  */
+
+const path = require('path');
 /**
  * @author KEHL Johann <jkehl.dev@gmail.com>
  * @version 1.0.0
- * @description Session middleware module.
+ * @description Server middleware module.
  */
-const sessionMiddleware = {
+const middleware_server = {
 
     /**
      * @method controller_main#init - INITIALISE SESSION AND LOCALS
@@ -19,11 +21,11 @@ const sessionMiddleware = {
      * @param {Express.Response} response - Express server response
      * @param {CallableFunction} next - next middleware
      */
-    init(request, response, next) {
-        if (request.session.user == null) {
-            request.session.user = {
-                isSignIn: false
-            };
+    initilizeLocalsNdSession(request, response, next) {
+        response.locals.rootpath = path.resolve('./app/views/');
+
+        if (response.locals.message == null) {
+            response.locals.message = {};
         }
         if (request.session.message == null) {
             request.session.message = {};
@@ -34,6 +36,13 @@ const sessionMiddleware = {
                 request.session.message = {};
             }
         }
+
+        if (request.session.user == null) {
+            request.session.user = {
+                isSignIn: false,
+                isAdmin: false
+            };
+        }
         response.locals.user = request.session.user;
         next();
     },
@@ -43,7 +52,7 @@ const sessionMiddleware = {
      * @param {Express.Response} response - Express server response
      * @param {CallableFunction} next - next middleware
      */
-    redirect(request, response, next) {
+    isSignInOrRedirect(request, response, next) {
         if (!request.session.user.isSignIn) {
             response.redirect('/signin');
             return;
@@ -56,12 +65,20 @@ const sessionMiddleware = {
      * @param {Express.Response} response - Express server response
      * @param {CallableFunction} next - next middleware
      */
-    isAdmin(request, response, next) {
-        if (!request.session.user.isAdmin) {
-            require('../controllers/controller_error').error_404(request, response);
+    isAdminOrRedirect(request, response, next) {
+        if (!(request.session.user.isAdmin && request.session.user.isSignIn)) {
+            response.redirect('/error/404');
             return;
         }
         next();
+    },
+
+    /**
+     * @method controller_main#redirect404 - REDIRECT TO 404 ERROR PAGE
+     * @param {Express.Response} response - Express server response
+     */
+    redirect404(_, response, _) {
+        response.redirect('/error/404');
     }
 }
-module.exports = sessionMiddleware;
+module.exports = middleware_server;

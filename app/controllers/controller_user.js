@@ -49,7 +49,7 @@ const controller_user = {
                 response.locals.message.error = 'Login incorrect.';
                 response.render('signin');
             }
-        }).catch(renderError.renderError);
+        }).catch(renderError.renderHTML403);
     },
 
     /**
@@ -100,8 +100,8 @@ const controller_user = {
                 }).then(() => {
                     request.session.message.info = 'Compte utilisateur ajouté. Vous pouvez vous identifier.';
                     response.redirect('/signin');
-                }).catch(renderError.renderError);
-            }).catch(renderError.renderError);
+                }).catch(renderError.renderHTML403);
+            }).catch(renderError.renderHTML403);
         }
     },
 
@@ -131,12 +131,12 @@ const controller_user = {
                     request.session.message.info = 'Compte utilisateur supprimé.';
                     request.session.user = null;
                     response.redirect('/');
-                }).catch(renderError.renderError);
+                }).catch(renderError.renderHTML403);
             } else {
                 response.locals.message.error = 'Login incorrect.';
                 response.render('profil');
             }
-        }).catch(renderError.renderError);
+        }).catch(renderError.renderHTML403);
     },
 
     /**

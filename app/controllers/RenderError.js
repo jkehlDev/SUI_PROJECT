@@ -28,11 +28,15 @@ class RenderError {
     
     renderError(error) {
         console.error(error);
-        this.request.session.message.error = error.message;
+        if (messages[error.code]!=null) {
+            request.session.message.error = messages[error.code];
+        } else {
+            request.session.message.error = error.code + '::' + error.message;
+        }
         this.response.redirect('/');
     }
 
-    renderErrorPage(error, renderPage) {
+    renderErrorOnPage(error, renderPage) {
         console.error(error);
         if (messages[error.code]!=null) {
             request.session.message.error = messages[error.code];
@@ -40,6 +44,25 @@ class RenderError {
             request.session.message.error = error.code + '::' + error.message;
         }
         response.redirect(renderPage);
+    }
+
+    renderHTML403(error) {
+        console.error(error);
+        if (messages[error.code]!=null) {
+            request.session.message.error = messages[error.code];
+        } else {
+            request.session.message.error = error.code + '::' + error.message;
+        }
+        response.redirect('error/error_406');
+    }
+    renderHTML506(error) {
+        console.error(error);
+        if (messages[error.code]!=null) {
+            request.session.message.error = messages[error.code];
+        } else {
+            request.session.message.error = error.code + '::' + error.message;
+        }
+        response.redirect('error/error_503');
     }
 }
 
