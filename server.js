@@ -84,7 +84,6 @@ https.createServer({
 
 // REDIRECTION FROM HTTP TO HTTPS
 const http = require('http');
-const router_error = require('./app/routers/router_error');
 const APP_PORT_HTTP = process.env.PORT_HTTP;
 const redirectApp = express();
 redirectApp.use((request, response, next) => {

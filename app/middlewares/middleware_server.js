@@ -77,7 +77,7 @@ const middleware_server = {
      * @method controller_main#redirect404 - REDIRECT TO 404 ERROR PAGE
      * @param {Express.Response} response - Express server response
      */
-    redirect404(_, response, _) {
+    redirect404(_, response) {
         response.redirect('/error/404');
     }
 }
