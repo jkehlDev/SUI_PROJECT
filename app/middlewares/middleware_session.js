@@ -14,7 +14,7 @@
 const sessionMiddleware = {
 
     /**
-     * @method controller_main#homePage - GET HOME PAGE RENDERING
+     * @method controller_main#init - INITIALISE SESSION AND LOCALS
      * @param {Express.Request} request - Express server request
      * @param {Express.Response} response - Express server response
      * @param {CallableFunction} next - next middleware
@@ -35,6 +35,32 @@ const sessionMiddleware = {
             }
         }
         response.locals.user = request.session.user;
+        next();
+    },
+    /**
+     * @method controller_main#redirect - CTRL IS SIGNIN OK OR SIGNUP
+     * @param {Express.Request} request - Express server request
+     * @param {Express.Response} response - Express server response
+     * @param {CallableFunction} next - next middleware
+     */
+    redirect(request, response, next) {
+        if (!request.session.user.isSignIn) {
+            response.redirect('/signin');
+            return;
+        }
+        next();
+    },
+    /**
+     * @method controller_main#isAdmin - CTRL IS ADMIN OK OR 404
+     * @param {Express.Request} request - Express server request
+     * @param {Express.Response} response - Express server response
+     * @param {CallableFunction} next - next middleware
+     */
+    isAdmin(request, response, next) {
+        if (!request.session.user.isAdmin) {
+            require('../controllers/controller_error').error_404(request, response);
+            return;
+        }
         next();
     }
 }

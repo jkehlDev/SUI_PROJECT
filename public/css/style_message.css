@@ -1,0 +1,16 @@
+div.message {
+    width: 100%;
+    font-weight: normal;
+    font-size: 0.90rem;
+    padding: 0.5rem 0;
+    text-align: center;
+    background-color: #cbd5dd;
+}
+
+div.message--error {
+    color: red;
+}
+
+div.message--info {
+    color: blue;
+}

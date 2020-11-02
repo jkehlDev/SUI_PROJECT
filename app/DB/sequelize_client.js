@@ -9,7 +9,7 @@ const sequelize_client = new Sequelize(
     process.env.PG_URL,
     {
         define: {
-            underscored: true,
+            underscored: false,
             timestamps: false
         },
         logging: false

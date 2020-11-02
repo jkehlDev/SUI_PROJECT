@@ -12,6 +12,9 @@ const email_validator = require('email-validator');
 const {
     User
 } = require('../models/user');
+const {
+    Sequelize
+} = require('sequelize');
 const RenderError = require('./RenderError');
 
 /**
@@ -80,7 +83,9 @@ const controller_user = {
             const renderError = new RenderError(request, response);
             User.findOne({
                 where: {
-                    name: request.body.user_name
+                    name: {
+                        [Sequelize.Op.iLike]: request.body.user_name
+                    }
                 }
             }).then(user => {
                 if (user) {
@@ -175,6 +180,19 @@ const controller_user = {
      */
     getDeleteProfil(request, response) {
         response.render('delete_account');
+    },
+
+
+    /**
+     * @method controller_main#getAdmin - GET ADMIN PAGE RENDERING
+     * @param {Express.Response} response - Express server response
+     */
+    getAdmin(request, response) {
+        if (request.session.user.isAdmin) {
+            response.render('admin/admin');
+        } else {
+            response.redirect('/');
+        }
     },
 };
 module.exports = controller_user;

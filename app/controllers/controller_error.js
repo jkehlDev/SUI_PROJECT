@@ -21,9 +21,8 @@ const controller_error = {
      * @param {CallableFunction} next - next Express middleware
      */
     error_404(request, response) {
-        response.status(404).render('errors/error_404', {
-            errorUrl: request.url
-        });
+        response.locals.message.error = `Sorry, the page you request for isn't exist, please go back.`;
+        response.status(404).render('errors/error_404');
     },
     /**
      * @method controller_error#error_406 - GET ERROR 406 PAGE RENDERING

@@ -12,25 +12,19 @@ const {
  */
 
 const express = require('express');
-const controller_main = require('../controllers/controller_main');
 const controller_user = require('../controllers/controller_user');
 
 /**
  * @author KEHL Johann <jkehl.dev@gmail.com>
  * @version 1.0.0
- * @description Main router module.
+ * @description User router module.
  */
-const router_main = express.Router();
+const router_user = express.Router();
 
-router_main.get('/', controller_main.homePage);
-router_main.get('/mentions', controller_main.getMentions);
-router_main.get('/cookies-consent-info', controller_main.getCookiesConsent);
+router_user.get('/profil', controller_user.getProfil);
+router_user.get('/profil/delete', controller_user.getDeleteProfil);
+router_user.post('/profil/delete', controller_user.deleteProfil);
 
+router_user.get('/signout/', controller_user.getSignOut);
 
-router_main.get('/signup/', controller_user.getSignUp);
-router_main.get('/signin/', controller_user.getSignIn);
-
-router_main.post('/signin/', controller_user.signIn);
-router_main.post('/signup/', controller_user.signUp);
-
-module.exports = router_main;
+module.exports = router_user;

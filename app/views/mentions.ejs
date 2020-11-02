@@ -1,8 +1,10 @@
 <%- include(rootpath+'/partials/header') %>
-<h1>Mentions légales</h1>
-<div>
-    <p>Nom : <%= mentions.first_name %></p>
-    <p>Prénom: <%= mentions.last_name %></p>
-    <p>Domicile: <%= mentions.location %></p>
-</div>
+<section>
+    <h1>Mentions légales</h1>
+    <article>
+        <p>Nom : <%= mentions.first_name %></p>
+        <p>Prénom: <%= mentions.last_name %></p>
+        <p>Domicile: <%= mentions.location %></p>
+    </article>
+</section>
 <%- include(rootpath+'/partials/footer') %>

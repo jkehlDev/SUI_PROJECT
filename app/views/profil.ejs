@@ -1,10 +1,10 @@
 <%- include(rootpath+'/partials/header') %>
-
-<h1>Profil utilisateur</h1>
-<div>
-    <p>Identifiant : <%= user.name %></p>
-    <p>Email : <%= user.email %></p>
-</div>
-<a href="/profil/delete" title="Supprimer le compte utilisateur.">Supprimer votre compte</a>
-
+<section>
+    <h1>Profil utilisateur</h1>
+    <div>
+        <p>Identifiant : <%= user.name %></p>
+        <p>Email : <%= user.email %></p>
+    </div>
+    <a href="user/profil/delete" title="Supprimer le compte utilisateur.">Supprimer votre compte</a>
+</section>
 <%- include(rootpath+'/partials/footer') %>

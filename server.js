@@ -63,6 +63,10 @@ app.use((_, response, next) => {
 const router_main = require('./app/routers/router_main');
 const midlleware_session = require('./app/middlewares/middleware_session');
 app.use('/', midlleware_session.init, router_main);
+const router_user = require('./app/routers/router_user');
+app.use('/user', midlleware_session.redirect,router_user);
+const router_admin = require('./app/routers/router_admin');
+app.use('/admin', midlleware_session.isAdmin,router_admin);
 
 // PAGE NOT FOUND AFTER ALL
 const controller_error = require('./app/controllers/controller_error');

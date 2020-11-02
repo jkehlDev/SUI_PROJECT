@@ -1,12 +1,14 @@
 <%- include(rootpath+'/partials/header') %>
-<div class="h1__texthighlight">Vérifiez votre identité</div>
-<h1>Supprimer votre compte utilisateur</h1>
-<form action="/profil/delete" method="post">
-    <label class="form--labelBox" for="user_password">
-        <span class="form--label form--label--required">Mot de passe</span>
-        <input class="form--input" type="password" name="user_password" id="user_password" placeholder="********"
-            required="true">
-    </label>
-    <button class="form--submit" type="submit">submit</button>
-</form>
+<section>
+    <h1 class="h1__upline">Vérifiez votre identité</h1>
+    <h1>Supprimer votre compte utilisateur</h1>
+    <form action="/profil/delete" method="post">
+        <label class="form--labelBox" for="user_password">
+            <span class="form--label form--label--required">Mot de passe</span>
+            <input class="form--input" type="password" name="user_password" id="user_password" placeholder="********"
+                required="true">
+        </label>
+        <button class="form--submit" type="submit">submit</button>
+    </form>
+</section>
 <%- include(rootpath+'/partials/footer') %>

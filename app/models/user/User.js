@@ -15,6 +15,7 @@ class User extends Model {
         return {
             name : this.name,
             email: this.email,
+            isAdmin: this.isAdmin,
             isSignIn: true
         };
     }
@@ -29,6 +30,7 @@ User.init({
         }
     },
     password: DataTypes.STRING,
+    isAdmin : DataTypes.BOOLEAN
 }, {
     sequelize,
     tableName: 'users'
