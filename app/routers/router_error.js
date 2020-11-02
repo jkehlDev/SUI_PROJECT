@@ -21,8 +21,8 @@ const controller_error = require('../controllers/controller_error');
  */
 const router_error = express.Router();
 
-router_error.get('/error/404', controller_error.error_404);
-router_error.get('/error/406', controller_error.error_406);
-router_error.get('/error/503', controller_error.error_503);
+router_error.get('/404', controller_error.error_404);
+router_error.get('/406', controller_error.error_406);
+router_error.get('/503', controller_error.error_503);
 
 module.exports = router_error;

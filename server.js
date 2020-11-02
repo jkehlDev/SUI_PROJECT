@@ -61,14 +61,14 @@ const midlleware_server = require('./app/middlewares/middleware_server');
 const router_main = require('./app/routers/router_main');
 app.use('/', midlleware_server.initilizeLocalsNdSession, router_main);
 
+const router_error = require('./app/routers/router_error');
+app.use('/error', router_error);
+
 const router_user = require('./app/routers/router_user');
 app.use('/user', midlleware_server.isSignInOrRedirect, router_user);
 
 const router_admin = require('./app/routers/router_admin');
 app.use('/admin', midlleware_server.isAdminOrRedirect, router_admin);
-
-const router_error = require('./app/routers/router_error');
-app.use('/error', router_error);
 
 // PAGE NOT FOUND AFTER ALL
 app.use(midlleware_server.redirect404);

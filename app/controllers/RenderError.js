@@ -53,7 +53,7 @@ class RenderError {
         } else {
             request.session.message.error = error.code + '::' + error.message;
         }
-        response.redirect('error/error_406');
+        response.redirect('/error/406');
     }
     renderHTML506(error) {
         console.error(error);
@@ -62,7 +62,7 @@ class RenderError {
         } else {
             request.session.message.error = error.code + '::' + error.message;
         }
-        response.redirect('error/error_503');
+        response.redirect('/error/503');
     }
 }
 
