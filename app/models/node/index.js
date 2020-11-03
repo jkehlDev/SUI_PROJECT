@@ -1,4 +1,5 @@
 const Node = require('./Node');
+const NodeLinks = require('./NodeLinks');
 
 Node.belongsToMany(Node, {
     foreignKey: 'nodeFromId',
@@ -11,7 +12,7 @@ Node.belongsToMany(Node, {
     foreignKey: 'nodeToId',
     otherKey: 'nodeFromId',
     as: 'nodesTo',
-    through: 'nodeLinks'
+    through: NodeLinks
 });
 
 module.exports = {

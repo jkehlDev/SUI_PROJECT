@@ -1,11 +1,15 @@
 <%- include(rootpath+'/partials/header') %>
-<h1 class="h1__upline">Administrez vos informations</h1>
+<h1 class="h1__upline">Administrez votre compte</h1>
 <h1>Compte utilisateur</h1>
 <section>
-    <h2>Informations compte</h2>
+    <h2>Vos Informations</h2>
+    <h2 class="h__subnav">
+        <a href="/user/profil/changepassword" title="Modifier le mot de passe utilisateur.">Modifier votre mot de
+            passe</a>
+        <a href="/user/profil/delete" title="Supprimer le compte utilisateur.">Supprimer votre compte</a>
+    </h2>
     <p>Identifiant : <%= user.name %></p>
     <p>Email : <%= user.email %></p>
-    <a href="/user/profil/changepassword" title="Modifier le mot de passe utilisateur.">Modifier votre mot de passe</a>
-    <a href="/user/profil/delete" title="Supprimer le compte utilisateur.">Supprimer votre compte</a>
+
 </section>
 <%- include(rootpath+'/partials/footer') %>

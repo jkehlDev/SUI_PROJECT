@@ -48,6 +48,13 @@ main section.section--without_border {
 main section p {
     width: 100%;
     padding-left: 3rem;
+    margin: 0;
+    text-align: left;
+}
+
+main section a {
+    padding-left: 3rem;
+    margin: 0;
     text-align: left;
 }
 
@@ -109,6 +116,37 @@ main h3 {
     text-align: left;
 }
 
+main h1.h__subnav,
+h2.h__subnav,
+h3.h__subnav {
+    font-size: 0.80rem;
+    font-weight: normal;
+    font-family: monospace;
+    color: #0366d6;
+
+    width: 100%;
+    padding-left: 1rem;
+    margin: -1rem 0 1rem 0;
+    text-align: center;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: space-between;
+    align-items: center;
+}
+
+.h__subnav a {
+    color: #24292e;
+
+    padding-left: 1rem;
+    margin: 0;
+    
+    text-align: left;
+    width: fit-content;
+}
+
 div.message {
     width: 100%;
     font-weight: normal;
@@ -125,8 +163,6 @@ div.message--error {
 div.message--info {
     color: #0366d6;
 }
-
-
 
 main form {
     display: flex;
