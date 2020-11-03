@@ -25,6 +25,9 @@ router_user.get('/profil', controller_user.getProfil);
 router_user.get('/profil/delete', controller_user.getDeleteProfil);
 router_user.post('/profil/delete', controller_user.deleteProfil);
 
+router_user.get('/profil/changepassword', controller_user.getChangePassword);
+router_user.post('/profil/changepassword', controller_user.changePassword);
+
 router_user.get('/signout/', controller_user.getSignOut);
 
 module.exports = router_user;

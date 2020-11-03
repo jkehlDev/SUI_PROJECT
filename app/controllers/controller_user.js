@@ -49,7 +49,7 @@ const controller_user = {
                 response.locals.message.error = 'Login incorrect.';
                 response.render('signin');
             }
-        }).catch(renderError.renderHTML403);
+        }).catch((error) => renderError.renderHTML406(error));
     },
 
     /**
@@ -72,7 +72,7 @@ const controller_user = {
                 user_email: request.body.user_email,
             };
             response.render('signup');
-        } else if (request.body.user_password != request.body.user_passwordConfirm) {
+        } else if (request.body.user_password !== request.body.user_passwordconfirm) {
             response.locals.message.error = `Impossible de créer l'utilisateur : Confirmation du mot de passe erronée.`;
             response.locals.fields = {
                 user_name: request.body.user_name,
@@ -93,15 +93,18 @@ const controller_user = {
                     response.render('signup');
                     return;
                 }
+                const salt = bcrypt.genSaltSync(10);
+                const hash = bcrypt.hashSync(request.body.user_password, salt);
                 User.create({
                     name: request.body.user_name,
                     email: request.body.user_email,
-                    password: request.body.user_password,
+                    password: hash,
+                    isAdmin: false
                 }).then(() => {
                     request.session.message.info = 'Compte utilisateur ajouté. Vous pouvez vous identifier.';
                     response.redirect('/signin');
-                }).catch(renderError.renderHTML403);
-            }).catch(renderError.renderHTML403);
+                }).catch((error) => renderError.renderHTML406(error));
+            }).catch((error) => renderError.renderHTML406(error));
         }
     },
 
@@ -131,12 +134,12 @@ const controller_user = {
                     request.session.message.info = 'Compte utilisateur supprimé.';
                     request.session.user = null;
                     response.redirect('/');
-                }).catch(renderError.renderHTML403);
+                }).catch((error) => renderError.renderHTML406(error));
             } else {
                 response.locals.message.error = 'Login incorrect.';
                 response.render('profil');
             }
-        }).catch(renderError.renderHTML403);
+        }).catch((error) => renderError.renderHTML406(error));
     },
 
     /**
@@ -178,8 +181,71 @@ const controller_user = {
      * @method controller_main#getDeleteProfil - GET DELETE ACCOUNT PAGE RENDERING
      * @param {Express.Response} response - Express server response
      */
-    getDeleteProfil(request, response) {
+    getDeleteProfil(_, response) {
         response.render('delete_account');
+    },
+
+    /**
+     * @method controller_main#getChangePassword - GET DELETE ACCOUNT PAGE RENDERING
+     * @param {Express.Request} request - Express server request
+     * @param {Express.Response} response - Express server response
+     */
+    getChangePassword(_, response) {
+        response.render('password_change');
+    },
+
+    /**
+     * @method controller_main#changePassword - GET DELETE ACCOUNT PAGE RENDERING
+     * @param {Express.Request} request - Express server request
+     * @param {Express.Response} response - Express server response
+     */
+    changePassword(request, response) {
+        const renderError = new RenderError(request, response);
+        console.log(renderError);
+        User.findOne({
+            where: {
+                name: request.session.user.name
+            }
+        }).then(user => {
+            if (!user) {
+                response.locals.message.error = 'Login incorrect.';
+                response.render('password_change');
+                return;
+            }
+            if (bcrypt.compareSync(request.body.user_oldpassword, user.password)) {
+                if (request.body.user_newpassword.length < 8) {
+                    response.locals.message.error = `Impossible de modifier le mot de passe : Le nouveau mot de passe doit contenir au minimum 8 caractères.`;
+                    response.locals.fields = {
+                        user_oldpassword: request.body.user_oldpassword,
+                    };
+                    response.render('password_change');
+                } else if (request.body.user_newpassword !== request.body.user_newpasswordconfirm) {
+                    response.locals.message.error = `Impossible de modifier le mot de passe : Confirmation du nouveau mot de passe erronée.`;
+                    response.locals.fields = {
+                        user_oldpassword: request.body.user_oldpassword,
+                    };
+                    response.render('password_change');
+                } else if (request.body.user_newpassword === request.body.user_oldpassword) {
+                    response.locals.message.error = `Impossible de modifier le mot de passe : Nouveau mot de passe identique à l'actuel.`;
+                    response.locals.fields = {
+                        user_oldpassword: request.body.user_oldpassword,
+                    };
+                    response.render('password_change');
+                } else {
+                    const salt = bcrypt.genSaltSync(10);
+                    const hash = bcrypt.hashSync(request.body.user_newpassword, salt);
+                    user.update({
+                        password: hash
+                    }).then(() => {
+                        request.session.message.info = 'Nouveau mot de passe sauvegardé.';
+                        response.redirect('/user/profil');
+                    }).catch((error) => renderError.renderHTML406(error));
+                }
+            } else {
+                response.locals.message.error = 'Mot de passe actuel incorrect.';
+                response.render('password_change');
+            }
+        }).catch((error) => renderError.renderHTML406(error));
     },
 
 

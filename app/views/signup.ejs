@@ -1,7 +1,7 @@
 <%- include(rootpath+'/partials/header') %>
-<section>
-    <h1 class="h1__upline">Rejoignez ProjectHub</h1>
-    <h1>Créez votre compte utilisateur</h1>
+<h1 class="h1__upline">Rejoignez ProjectHub</h1>
+<h1>Créez votre compte utilisateur</h1>
+<section class="section--without_border">
     <form action="/signup" method="post">
         <label class="form--labelBox" for="user_name">
             <span class="form--label form--label--required">Nom utilisateur</span>
@@ -18,9 +18,9 @@
             <input class="form--input" type="password" name="user_password" id="user_password" placeholder="********"
                 required="true">
         </label>
-        <label class="form--labelBox" for="user_passwordConfirm">
+        <label class="form--labelBox" for="user_passwordconfirm">
             <span class="form--label form--label--required">Confirmer le mot de passe</span>
-            <input class="form--input" type="password" name="user_passwordConfirm" id="user_passwordConfirm"
+            <input class="form--input" type="password" name="user_passwordconfirm" id="user_passwordconfirm"
                 placeholder="********" required="true">
         </label>
         <button class="form--submit" type="submit">submit</button>

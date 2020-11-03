@@ -13,25 +13,17 @@ const messages = require('../data/errors_message.json');
  * @description Renderring error class
  */
 class RenderError {
-    _request;
-    _response;
     constructor(request, response) {
-        this._request = request;
-        this._response = response;
-    }
-    get request() {
-        return this._request;
-    }
-    get response() {
-        return this._response;
+        this.request = request;
+        this.response = response;
     }
     
     renderError(error) {
         console.error(error);
         if (messages[error.code]!=null) {
-            request.session.message.error = messages[error.code];
+            this.request.session.message.error = messages[error.code];
         } else {
-            request.session.message.error = error.code + '::' + error.message;
+            this.request.session.message.error = error.code + '::' + error.message;
         }
         this.response.redirect('/');
     }
@@ -39,30 +31,31 @@ class RenderError {
     renderErrorOnPage(error, renderPage) {
         console.error(error);
         if (messages[error.code]!=null) {
-            request.session.message.error = messages[error.code];
+            this.request.session.message.error = messages[error.code];
         } else {
-            request.session.message.error = error.code + '::' + error.message;
+            this.request.session.message.error = error.code + '::' + error.message;
         }
-        response.redirect(renderPage);
+        this.response.redirect(renderPage);
     }
 
-    renderHTML403(error) {
+    renderHTML406(error) {
         console.error(error);
         if (messages[error.code]!=null) {
-            request.session.message.error = messages[error.code];
+            this.request.session.message.error = messages[error.code];
         } else {
-            request.session.message.error = error.code + '::' + error.message;
+            this.request.session.message.error = error.code + '::' + error.message;
         }
-        response.redirect('/error/406');
+        this.response.redirect('/error/406');
     }
-    renderHTML506(error) {
+
+    renderHTML503(error) {
         console.error(error);
         if (messages[error.code]!=null) {
-            request.session.message.error = messages[error.code];
+            this.request.session.message.error = messages[error.code];
         } else {
-            request.session.message.error = error.code + '::' + error.message;
+            this.request.session.message.error = error.code + '::' + error.message;
         }
-        response.redirect('/error/503');
+        this.response.redirect('/error/503');
     }
 }
 

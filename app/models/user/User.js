@@ -13,7 +13,7 @@ const {
 class User extends Model {
     getUserObj() {
         return {
-            name : this.name,
+            name: this.name,
             email: this.email,
             isAdmin: this.isAdmin,
             isSignIn: true
@@ -30,22 +30,10 @@ User.init({
         }
     },
     password: DataTypes.STRING,
-    isAdmin : DataTypes.BOOLEAN
+    isAdmin: DataTypes.BOOLEAN
 }, {
     sequelize,
     tableName: 'users'
-});
-
-User.beforeCreate(function (user) {
-    
-    bcrypt.hash(user.password, 10, (error, hash) => {
-        if (error) {
-            console.error(error);
-            throw error;
-        }
-        user.password = hash;
-        user.save();
-    });
 });
 
 module.exports = User;
