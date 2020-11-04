@@ -17,6 +17,8 @@ For :
 - Check email with email validator
 - SignIn , SignUp, SignOut functions
 - Profil page (delete account, update password), admin page on user role
+- Use ejs page engine rendering
+- Pratice CSS, HTML FORM
 
 # TODO 
 - Email validation by email sending and link validation.
