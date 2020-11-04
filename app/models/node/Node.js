@@ -6,7 +6,7 @@ const {
 
 /**
  * @version 1.0.0
- * @description User class model.
+ * @description Node class model.
  */
 class Node extends Model {
 }

@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS "nodes" (
 -- CREATE FRESH TABLE
 CREATE TABLE IF NOT EXISTS "nodeLinks" (
   "id" SERIAL PRIMARY KEY,
-  "nodeFromId" INTEGER NOT NULL REFERENCES "nodes" ("id"),
-  "nodeToId" INTEGER NOT NULL REFERENCES "nodes" ("id")
+  "nodesFromId" INTEGER NOT NULL REFERENCES "nodes" ("id"),
+  "NodeId" INTEGER NOT NULL REFERENCES "nodes" ("id")
 );
 
 -- -- CREATE FRESH TABLE

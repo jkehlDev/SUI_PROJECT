@@ -1,20 +1,21 @@
 const Node = require('./Node');
-const NodeLinks = require('./NodeLinks');
+const NodeLink = require('./NodeLink');
+
+// Node.hasMany(NodeLinks, {
+//     foreignKey: 'nodeToId',
+//     as: 'nodesFrom',
+// });
+
+// Node.hasMany(NodeLinks, {
+//     foreignKey: 'nodeFromId',
+//     as: 'nodesTo',
+// });
 
 Node.belongsToMany(Node, {
-    foreignKey: 'nodeFromId',
-    otherKey: 'nodeToId',
     as: 'nodesFrom',
-    through: 'nodeLinks'
-});
-
-Node.belongsToMany(Node, {
-    foreignKey: 'nodeToId',
-    otherKey: 'nodeFromId',
-    as: 'nodesTo',
-    through: NodeLinks
-});
+    through: NodeLink
+})
 
 module.exports = {
-    Node
+    Node, NodeLink
 }
