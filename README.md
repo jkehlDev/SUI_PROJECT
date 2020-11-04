@@ -8,4 +8,12 @@
     */
 
 # SUI_PROJECT
-Outils de suivi projet
+JS NODE dev practice project.
+For :
+- HTTP / HTTPS server express
+- Session management with express-session
+- Postrgesql DB acces by Sequelize.
+- Encrypted password account with bcrypt.
+- SignIn , SignUp, SignOut functions
+- Profil page (delete account, update password), admin page
+
