@@ -9,7 +9,16 @@
 
 # SUI_PROJECT
 JS NODE dev practice project.
-For :
+
+## How to use it
+1. Have postgresql database and configure .env file
+2. Run ./app/DB/create_DB.sql
+3. Run command line :
+
+        npm install
+        node server.js
+
+## PRACTICE LIST
 - HTTP / HTTPS server express
 - Session management with express-session
 - Postrgesql DB acces by Sequelize.
@@ -20,7 +29,7 @@ For :
 - Use ejs page engine rendering
 - Pratice CSS, HTML FORM
 
-# TODO 
+## TODO LIST
 - Email validation by email sending and link validation.
 - Store session in posgresql table
 - Use web service : listening web service
