@@ -14,6 +14,12 @@ For :
 - Session management with express-session
 - Postrgesql DB acces by Sequelize.
 - Encrypted password account with bcrypt.
+- Check email with email validator
 - SignIn , SignUp, SignOut functions
-- Profil page (delete account, update password), admin page
+- Profil page (delete account, update password), admin page on user role
 
+# TODO 
+- Email validation by email sending and link validation.
+- Store session in posgresql table
+- Use web service : listening web service
+- DO JQueries - Do responsive front page.
