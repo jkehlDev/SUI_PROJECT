@@ -11,10 +11,8 @@ const bcrypt = require('bcrypt');
 const email_validator = require('email-validator');
 const {
     User
-} = require('../models/user');
-const {
-    Sequelize
-} = require('sequelize');
+} = require('../models/');
+const {Sequelize} = require('sequelize');
 const RenderError = require('./RenderError');
 
 /**

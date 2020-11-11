@@ -48,14 +48,6 @@ app.use(session({
 
 app.use(express.static('public'));
 
-// SET LOCALS
-// GIVE ROOT PATH AND MESSAGE VAR FOR EJS INCLUDES
-const path = require('path');
-app.use((_, response, next) => {
-   
-    next();
-})
-
 // TABLE ROUTING
 const midlleware_server = require('./app/middlewares/middleware_server');
 const router_main = require('./app/routers/router_main');

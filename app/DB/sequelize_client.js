@@ -9,11 +9,18 @@ const sequelize_client = new Sequelize(
     process.env.PG_URL,
     {
         define: {
-            underscored: false,
-            timestamps: false
+            underscored: true,
+            timestamps: true
         },
-        logging: false
+
+        logging: false,
+        createdAt: 'created_At',
+        updatedAt: 'updated_At'
     }
 );
+
+sequelize_client.sync({
+    force: false
+});
 
 module.exports = sequelize_client;

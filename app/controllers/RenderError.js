@@ -17,44 +17,22 @@ class RenderError {
         this.request = request;
         this.response = response;
     }
-    
+
     renderError(error) {
         console.error(error);
-        if (messages[error.code]!=null) {
-            this.request.session.message.error = messages[error.code];
-        } else {
-            this.request.session.message.error = error.code + '::' + error.message;
-        }
+        this.request.session.message.error = error.code + '::' + error.message;
         this.response.redirect('/');
-    }
-
-    renderErrorOnPage(error, renderPage) {
-        console.error(error);
-        if (messages[error.code]!=null) {
-            this.request.session.message.error = messages[error.code];
-        } else {
-            this.request.session.message.error = error.code + '::' + error.message;
-        }
-        this.response.redirect(renderPage);
     }
 
     renderHTML406(error) {
         console.error(error);
-        if (messages[error.code]!=null) {
-            this.request.session.message.error = messages[error.code];
-        } else {
-            this.request.session.message.error = error.code + '::' + error.message;
-        }
+        this.request.session.message.error = error.code + '::' + error.message;
         this.response.redirect('/error/406');
     }
 
     renderHTML503(error) {
         console.error(error);
-        if (messages[error.code]!=null) {
-            this.request.session.message.error = messages[error.code];
-        } else {
-            this.request.session.message.error = error.code + '::' + error.message;
-        }
+        this.request.session.message.error = error.code + '::' + error.message;
         this.response.redirect('/error/503');
     }
 }

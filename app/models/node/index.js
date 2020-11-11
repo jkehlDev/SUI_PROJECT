@@ -1,21 +1,15 @@
 const Node = require('./Node');
-const NodeLink = require('./NodeLink');
-
-// Node.hasMany(NodeLinks, {
-//     foreignKey: 'nodeToId',
-//     as: 'nodesFrom',
-// });
-
-// Node.hasMany(NodeLinks, {
-//     foreignKey: 'nodeFromId',
-//     as: 'nodesTo',
-// });
 
 Node.belongsToMany(Node, {
-    as: 'nodesFrom',
-    through: NodeLink
+    as: 'childs',
+    through: 'node_has_node'
 })
 
+// const sequelize = require('../../DB/sequelize_client');
+// sequelize.sync({
+//     force: false
+// });
+
 module.exports = {
-    Node, NodeLink
+    Node
 }

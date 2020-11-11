@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const sequelize = require('../../DB/sequelize_client');
+const sequelize = require('../DB/sequelize_client');
 
 const {
     DataTypes,
@@ -33,7 +33,7 @@ User.init({
     isAdmin: DataTypes.BOOLEAN
 }, {
     sequelize,
-    tableName: 'users'
+    tableName: 'user'
 });
 
 module.exports = User;

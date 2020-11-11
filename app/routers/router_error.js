@@ -1,7 +1,3 @@
-const {
-    request,
-    response
-} = require('express');
 /*
  * ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
