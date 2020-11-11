@@ -199,7 +199,6 @@ const controller_user = {
      */
     changePassword(request, response) {
         const renderError = new RenderError(request, response);
-        console.log(renderError);
         User.findOne({
             where: {
                 name: request.session.user.name
