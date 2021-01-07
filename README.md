@@ -7,7 +7,7 @@
     * ----------------------------------------------------------------------------
     */
 
-# SUI_PROJECT
+# WEBAPP_STUDY
 JS NODE dev practice project.
 
 ## How to use it
