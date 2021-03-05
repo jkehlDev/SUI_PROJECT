@@ -1,0 +1,6 @@
+{
+  "origin": "*",
+  "methods": "GET, POST",
+  "credentials": true,
+  "optionsSuccessStatus": 204
+}

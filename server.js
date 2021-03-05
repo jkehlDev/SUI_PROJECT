@@ -24,8 +24,24 @@ app.use(express.urlencoded({
     extended: true
 }));
 
+// Use Helmet to ensure minimal security Headers configuration
 const helmet = require('helmet');
 app.use(helmet());
+
+// Use enforceHttps to force redirection from HTTP to HTTPS
+const enforceHttps = require('./app/middlewares/enforceHttps');
+app.use(enforceHttps(process.env.PORT_HTTP, process.env.PORT_HTTPS));
+
+// Use morgan module to provide tiny request logger
+const morgan = require('morgan');
+app.use(
+  morgan(':method :url :status :res[content-length] - :response-time ms')
+);
+
+// Use cors to manage cors policy
+const corsUserConfig = require('./config/corsUser.json');
+const cors = require('cors');
+app.use(cors(corsUserConfig));
 
 const session = require('express-session');
 const randomString = require('randomstring');
@@ -63,26 +79,50 @@ const router_admin = require('./app/routers/router_admin');
 app.use('/admin', midlleware_server.isAdminOrRedirect, router_admin);
 
 // PAGE NOT FOUND AFTER ALL
-app.use(midlleware_server.redirect404);
+// Errors Routes
+const errors = require('./app/middlewares/errors');
+app.use(errors.error404);
+app.use(errors.error500);
 
-// CREATE SERVER
-const https = require('https');
-const APP_PORT_HTTPS = process.env.PORT_HTTPS;
-const fs = require('fs');
-https.createServer({
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
-}, app).listen(APP_PORT_HTTPS);
+// Server instance
+app.listen(process.env.PORT_HTTP, () => {
+    console.log('LISTEN PORT', process.env.PORT_HTTP);
+  });
+  
+  const fs = require('fs');
+  const options = {
+    key: fs.readFileSync('./tsl/key.pem'),
+    cert: fs.readFileSync('./tsl/cert.pem'),
+    dhparam: fs.readFileSync('./tsl/dh-strong.pem'),
+  };
+  const https = require('https');
+  https.createServer(options, app).listen(process.env.PORT_HTTPS);
+  
+  // ==============================================================
+  // CLOSING PROCESS CASE - TO CLOSE PROPERLY DATABASE CLIENT CONNEXION
+  //
+  process.stdin.resume(); //so the program will not close instantly
+  function exitHandler(options, exitCode) {
+    // ==============================
+    // DO SOMETHING HERE TO CLOSE YOUR DB PROPERLY IF IT NEED :
 
-// REDIRECTION FROM HTTP TO HTTPS
-const http = require('http');
-const APP_PORT_HTTP = process.env.PORT_HTTP;
-const redirectApp = express();
-redirectApp.use((request, response, next) => {
-    if (!request.secure) {
-        return response.status(301).redirect('https://' + request.headers.host.replace(":" + APP_PORT_HTTP, ":" + APP_PORT_HTTPS) + "/");
-    }
-    return next();
-});
-const redirectServer = http.createServer(redirectApp);
-redirectServer.listen(APP_PORT_HTTP);
+
+    // ==============================
+    if (options.cleanup) console.log('clean');
+    if (exitCode || exitCode === 0) console.log(exitCode);
+    if (options.exit) process.exit();
+  }
+  
+  //do something when app is closing
+  process.on('exit', exitHandler.bind(null, { cleanup: true }));
+  
+  //catches ctrl+c event
+  process.on('SIGINT', exitHandler.bind(null, { exit: true }));
+  
+  // catches "kill pid" (for example: nodemon restart)
+  process.on('SIGUSR1', exitHandler.bind(null, { exit: true }));
+  process.on('SIGUSR2', exitHandler.bind(null, { exit: true }));
+  
+  //catches uncaught exceptions
+  process.on('uncaughtException', exitHandler.bind(null, { exit: true }));
+  

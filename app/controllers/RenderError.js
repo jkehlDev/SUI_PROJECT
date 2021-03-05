@@ -6,7 +6,6 @@
  * this stuff is worth it, you can buy me a beer in return Johann KEHL.
  * ----------------------------------------------------------------------------
  */
-const messages = require('../data/errors_message.json');
 /**
  * @author KEHL Johann <jkehl.dev@gmail.com>
  * @version 1.0.0
@@ -26,14 +25,20 @@ class RenderError {
 
     renderHTML406(error) {
         console.error(error);
-        this.request.session.message.error = error.code + '::' + error.message;
+        this.request.session.message.error = 'ERROR 406 ::' + error.message;
         this.response.redirect('/error/406');
     }
 
     renderHTML503(error) {
         console.error(error);
-        this.request.session.message.error = error.code + '::' + error.message;
+        this.request.session.message.error = error.code + 'ERROR 503 ::' + error.message;
         this.response.redirect('/error/503');
+    }
+
+    renderHTML500(error) {
+        console.error(error);
+        this.request.session.message.error = error.code + 'ERROR 500 ::' + error.message;
+        this.response.redirect('/error/500');
     }
 }
 

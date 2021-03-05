@@ -20,5 +20,6 @@ const router_error = express.Router();
 router_error.get('/404', controller_error.error_404);
 router_error.get('/406', controller_error.error_406);
 router_error.get('/503', controller_error.error_503);
+router_error.get('/500', controller_error.error_500);
 
 module.exports = router_error;
