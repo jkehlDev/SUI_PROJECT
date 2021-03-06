@@ -19,18 +19,17 @@ JS NODE dev practice project.
         node server.js
 
 ## PRACTICE LIST
-- HTTP / HTTPS server express
+- HTTP / HTTPS server express with redirection to HTTPS
+- Use ejs page engine rendering
 - Session management with express-session
 - Postrgesql DB acces by Sequelize.
 - Encrypted password account with bcrypt.
 - Check email with email validator
 - SignIn , SignUp, SignOut functions
 - Profil page (delete account, update password), admin page on user role
-- Use ejs page engine rendering
-- Pratice CSS, HTML FORM
+- Pratice CSS, HTML FORM (Without personnalised Form validation)
+- Store session in Redis cache
+- Run Server with node PRODUCTION mode enable
 
 ## TODO LIST
 - Email validation by email sending and link validation.
-- Store session in posgresql table
-- Use web service : listening web service
-- DO JQueries - Do responsive front page.

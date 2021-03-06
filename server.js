@@ -8,6 +8,7 @@
  */
 
 require('dotenv').config();
+const redisClient = require('./app/DB/redisClient');
 const express = require('express');
 
 /**
@@ -20,9 +21,11 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', './app/views');
 
-app.use(express.urlencoded({
-    extended: true
-}));
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
 // Use Helmet to ensure minimal security Headers configuration
 const helmet = require('helmet');
@@ -44,23 +47,28 @@ const cors = require('cors');
 app.use(cors(corsUserConfig));
 
 const session = require('express-session');
+let RedisStore = require('connect-redis')(session);
 const randomString = require('randomstring');
 const secret = randomString.generate({
-    length: 14,
-    charset: 'alphanumeric'
+  length: 14,
+  charset: 'alphanumeric',
 });
-app.use(session({
+app.use(
+  session({
     secret,
+    name: 'sessionUser',
+    store: new RedisStore({ client: redisClient }),
     saveUninitialized: true,
-    resave: true,
+    resave: false,
     cookie: {
-        secure: true,
-        httpOnly: true,
-        //  domain: 'example.com',
-        //  path: 'foo/bar',
-        maxAge: (1000 * 60 * 60)
-    }
-}));
+      secure: true,
+      httpOnly: true,
+      //  domain: 'example.com',
+      //  path: 'foo/bar',
+      maxAge: 1000 * 60 * 60,
+    },
+  })
+);
 
 app.use(express.static('public'));
 
@@ -85,44 +93,49 @@ app.use(errors.error404);
 app.use(errors.error500);
 
 // Server instance
-app.listen(process.env.PORT_HTTP, () => {
-    console.log('LISTEN PORT', process.env.PORT_HTTP);
+const serverHttp = app.listen(process.env.PORT_HTTP, () => {
+  console.log('LISTEN PORT', process.env.PORT_HTTP);
+});
+
+const fs = require('fs');
+const options = {
+  key: fs.readFileSync('./tsl/key.pem'),
+  cert: fs.readFileSync('./tsl/cert.pem'),
+  dhparam: fs.readFileSync('./tsl/dh-strong.pem'),
+};
+const https = require('https');
+const serverHttps = https.createServer(options, app).listen(process.env.PORT_HTTPS);
+
+// ==============================================================
+// CLOSING PROCESS CASE - TO CLOSE PROPERLY DATABASE CLIENT CONNEXION
+//
+process.stdin.resume(); //so the program will not close instantly
+function exitHandler(options, exitCode) {
+  // ==============================
+  // DO SOMETHING HERE TO CLOSE YOUR DB PROPERLY IF IT NEED :
+  serverHttp.close((error) => {
+    console.error(error);
   });
-  
-  const fs = require('fs');
-  const options = {
-    key: fs.readFileSync('./tsl/key.pem'),
-    cert: fs.readFileSync('./tsl/cert.pem'),
-    dhparam: fs.readFileSync('./tsl/dh-strong.pem'),
-  };
-  const https = require('https');
-  https.createServer(options, app).listen(process.env.PORT_HTTPS);
-  
-  // ==============================================================
-  // CLOSING PROCESS CASE - TO CLOSE PROPERLY DATABASE CLIENT CONNEXION
-  //
-  process.stdin.resume(); //so the program will not close instantly
-  function exitHandler(options, exitCode) {
-    // ==============================
-    // DO SOMETHING HERE TO CLOSE YOUR DB PROPERLY IF IT NEED :
+  serverHttps.close((error) => {
+    console.error(error);
+  }); // Close HTTPS Server.
+  redisClient.end(true); // Close Redis client connection.
 
+  // ==============================
+  if (options.cleanup) console.log('clean');
+  if (exitCode || exitCode === 0) console.log(exitCode);
+  if (options.exit) process.exit();
+}
 
-    // ==============================
-    if (options.cleanup) console.log('clean');
-    if (exitCode || exitCode === 0) console.log(exitCode);
-    if (options.exit) process.exit();
-  }
-  
-  //do something when app is closing
-  process.on('exit', exitHandler.bind(null, { cleanup: true }));
-  
-  //catches ctrl+c event
-  process.on('SIGINT', exitHandler.bind(null, { exit: true }));
-  
-  // catches "kill pid" (for example: nodemon restart)
-  process.on('SIGUSR1', exitHandler.bind(null, { exit: true }));
-  process.on('SIGUSR2', exitHandler.bind(null, { exit: true }));
-  
-  //catches uncaught exceptions
-  process.on('uncaughtException', exitHandler.bind(null, { exit: true }));
-  
+//do something when app is closing
+process.on('exit', exitHandler.bind(null, { cleanup: true }));
+
+//catches ctrl+c event
+process.on('SIGINT', exitHandler.bind(null, { exit: true }));
+
+// catches "kill pid" (for example: nodemon restart)
+process.on('SIGUSR1', exitHandler.bind(null, { exit: true }));
+process.on('SIGUSR2', exitHandler.bind(null, { exit: true }));
+
+//catches uncaught exceptions
+process.on('uncaughtException', exitHandler.bind(null, { exit: true }));
