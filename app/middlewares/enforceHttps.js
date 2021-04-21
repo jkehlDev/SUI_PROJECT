@@ -11,6 +11,7 @@ const enforceHttps = (PORT_HTTP, PORT_HTTPS) =>
    * @param {CallableFunction} next
    */
   (request, response, next) => {
+    // IN CASE OF UNSUCURE ROUTE -> FORCE REDIRECTION TO HTTPS PROTOCOL AND PORT
     if (!request.secure) {
       return response
         .status(301)
@@ -20,7 +21,7 @@ const enforceHttps = (PORT_HTTP, PORT_HTTPS) =>
             "/"
         );
     }
-    next();
+    next(); // ELSE CONTINUE ON NEXT MIDDLEWARE
   };
 
 module.exports = enforceHttps;

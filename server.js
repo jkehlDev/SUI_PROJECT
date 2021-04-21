@@ -113,7 +113,7 @@ const serverHttps = https.createServer(options, app).listen(process.env.PORT_HTT
 process.stdin.resume(); //so the program will not close instantly
 function exitHandler(options, exitCode) {
   // ==============================
-  // DO SOMETHING HERE TO CLOSE YOUR DB PROPERLY IF IT NEED :
+  // CLOSE OPERATIONS BEFORE EXIT APPLICATION PROCESS
   serverHttp.close((error) => {
     console.error(error);
   });
