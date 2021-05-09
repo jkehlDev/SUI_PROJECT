@@ -33,3 +33,6 @@ JS NODE dev practice project.
 
 ## TODO LIST
 - Email validation by email sending and link validation.
+
+## SCREEN
+![Screen capture of signup page](https://github.com/jkehlDev/WEBAPP_STUDY/blob/main/ProjectHub.PNG)
